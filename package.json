@@ -1,0 +1,30 @@
+{
+  "name": "sutom",
+  "version": "1.0.0",
+  "description": "Jeu de lettres en ligne (et en français)",
+  "main": "js/main.js",
+  "dependencies": {
+    "@types/express": "^4.17.13",
+    "express": "^4.17.2",
+    "readline-sync": "^1.4.10",
+    "requirejs": "^2.3.6",
+    "typescript": "^4.5.4"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.1.8",
+    "tsc-watch": "^4.6.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node js/server.js & tsc-watch"
+  },
+  "keywords": [
+    "wordle",
+    "letters",
+    "word",
+    "word game"
+  ],
+  "author": "JonathanMM <jonathanmm@free.fr>",
+  "repository": "https://framagit.org/JonathanMM/sutom",
+  "license": "MIT"
+}

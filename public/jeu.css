@@ -1,0 +1,150 @@
+:root {
+  --taille-cellule: 48px;
+  --epaisseur-bordure-cellule: 1px;
+  --epaisseur-padding-cellule: 2px;
+  --couleur-bien-place: #e7002a;
+  --couleur-mal-place: #ffbd00;
+  --couleur-fond-grille: #0077c7;
+  --couleur-non-trouve: rgb(112, 112, 112);
+}
+
+@font-face {
+  font-family: "Roboto Medium";
+  src: url("/fonts/Roboto-Medium.ttf");
+}
+
+body {
+  font-family: "Roboto Medium", Ubuntu, Arial, Helvetica, sans-serif;
+  font-size: 32px;
+  background-color: #2b2b2b;
+  height: 100vh;
+  text-align: center;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+#contenu {
+  display: flex;
+  flex-direction: column;
+  margin-left: 25%;
+  margin-right: 25%;
+  justify-content: space-between;
+  height: 100%;
+}
+
+@media (max-width: 1024px) {
+  #contenu {
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+}
+
+#grille {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--couleur-fond-grille);
+}
+
+#grille table {
+  border-spacing: 0;
+}
+
+#grille td {
+  width: calc(var(--taille-cellule) - 2 * var(--epaisseur-padding-cellule));
+  height: calc(var(--taille-cellule) - 2 * var(--epaisseur-padding-cellule));
+  text-align: center;
+  position: relative;
+  padding: var(--epaisseur-padding-cellule);
+  color: white;
+  border: 1px solid white;
+  z-index: 0;
+}
+
+#grille td:not(.resultat) {
+  background-color: #0077c7;
+}
+
+#grille td.resultat::after {
+  width: calc(var(--taille-cellule));
+  height: calc(var(--taille-cellule));
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  content: " ";
+}
+
+#grille td.mal-place::after {
+  background-color: var(--couleur-mal-place);
+  border-radius: 50%;
+}
+
+#grille td.bien-place::after {
+  background-color: var(--couleur-bien-place);
+}
+
+#grille td.non-trouve::after {
+  background-color: var(--couleur-fond-grille);
+}
+
+#fin-de-partie-panel,
+#victoire-panel,
+#defaite-panel {
+  display: none;
+
+  font-size: 24px;
+}
+
+#input-area {
+  margin-top: 0.5em;
+  margin-bottom: 2em;
+}
+
+.input-ligne + .input-ligne {
+  margin-top: 0.5em;
+}
+
+.input-lettre {
+  font-size: 18px;
+  display: inline-block;
+  border: 1px solid white;
+  padding: 0.5em;
+  user-select: none;
+  min-width: 0.5em;
+}
+
+.input-lettre.lettre-bien-place {
+  background: var(--couleur-bien-place);
+}
+
+.input-lettre.lettre-mal-place {
+  background: var(--couleur-mal-place);
+}
+
+.input-lettre.lettre-non-trouve {
+  color: var(--couleur-non-trouve);
+  border: 1px solid var(--couleur-non-trouve);
+}
+
+.input-lettre:hover,
+.input-lettre:active {
+  cursor: pointer;
+}
+
+#regles-panel {
+  font-size: 14px;
+  text-align: left;
+}
+
+#regles-panel a,
+#regles-panel a:visited,
+#fin-de-partie-panel a,
+#fin-de-partie-panel a:visited {
+  color: white;
+}
+
+#notification {
+  opacity: 0;
+  transition: opacity linear 1s;
+}

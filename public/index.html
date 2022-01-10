@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUTOM</title>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+    <script data-main="js/main" type="text/javascript" src="node_modules/requirejs/require.js"></script>
+    <link rel="stylesheet" href="jeu.css" type="text/css" />
+  </head>
+  <body>
+    <div id="contenu">
+      <h1>SUTOM</h1>
+      <div id="notification"> </div>
+      <div id="fin-de-partie-panel">
+        <div id="victoire-panel">
+          <h2>Félicitations</h2>
+          <p>Bravo, tu as gagné. Reviens demain pour une nouvelle grille.</p>
+        </div>
+        <div id="defaite-panel">
+          <h2>Perdu</h2>
+          <p>
+            Le mot a trouver était : <span id="defaite-panel-mot"></span><br />
+            Peut être feras-tu mieux demain ?
+          </p>
+        </div>
+        <p>Résumé de ta partie <a href="#" id="fin-de-partie-panel-resume-bouton">Partager</a></p>
+        <pre id="fin-de-partie-panel-resume"></pre>
+      </div>
+      <div id="grille"></div>
+      <div id="input-area">
+        <div class="input-ligne">
+          <div data-lettre="A" class="input-lettre">A</div>
+          <div data-lettre="Z" class="input-lettre">Z</div>
+          <div data-lettre="E" class="input-lettre">E</div>
+          <div data-lettre="R" class="input-lettre">R</div>
+          <div data-lettre="T" class="input-lettre">T</div>
+          <div data-lettre="Y" class="input-lettre">Y</div>
+          <div data-lettre="U" class="input-lettre">U</div>
+          <div data-lettre="I" class="input-lettre">I</div>
+          <div data-lettre="O" class="input-lettre">O</div>
+          <div data-lettre="P" class="input-lettre">P</div>
+        </div>
+        <div class="input-ligne">
+          <div data-lettre="Q" class="input-lettre">Q</div>
+          <div data-lettre="S" class="input-lettre">S</div>
+          <div data-lettre="D" class="input-lettre">D</div>
+          <div data-lettre="F" class="input-lettre">F</div>
+          <div data-lettre="G" class="input-lettre">G</div>
+          <div data-lettre="H" class="input-lettre">H</div>
+          <div data-lettre="J" class="input-lettre">J</div>
+          <div data-lettre="K" class="input-lettre">K</div>
+          <div data-lettre="L" class="input-lettre">L</div>
+          <div data-lettre="M" class="input-lettre">M</div>
+        </div>
+        <div class="input-ligne">
+          <div data-lettre="W" class="input-lettre">W</div>
+          <div data-lettre="X" class="input-lettre">X</div>
+          <div data-lettre="C" class="input-lettre">C</div>
+          <div data-lettre="V" class="input-lettre">V</div>
+          <div data-lettre="B" class="input-lettre">B</div>
+          <div data-lettre="N" class="input-lettre">N</div>
+          <div data-lettre="_effacer" class="input-lettre">⌫</div>
+          <div data-lettre="_entree" class="input-lettre">↲</div>
+        </div>
+      </div>
+      <div id="regles-panel">
+        <p>
+          Vous avez six essais pour deviner le mot du jour.<br />
+          Vous ne pouvez proposer que des mots commençant par la même lettre que le mot recherché, et qui se trouvent dans notre dictionnaire.<br />
+          Les lettres entourées d'un carré rouge sont bien placées,<br />
+          les lettres entourées d'un cercle jaune sont mal placées (mais présentes dans le mot).<br />
+          Les lettres qui restent sur fond bleu ne sont pas dans le mot.<br />
+          Il y a un mot par jour, et il est identique pour tout le monde. Évitez donc les spoils et privilégiez le bouton de partage.<br />
+          En cas de soucis, vous pouvez contacter <a href="https://twitter.com/Jonamaths">@Jonamaths</a> sur twitter. −
+          <a target="_blank" href="https://framagit.org/JonathanMM/sutom">Page du projet</a><br />
+          Basé sur l'excellent <a target="_blank" href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> et le regretté Motus.<br />
+          Merci à Emmanuel pour l'aide sur le dictionnaire.
+        </p>
+      </div>
+    </div>
+    <script type="text/javascript">
+      requirejs(["main"], function (Main) {
+        var socket = new Main.default();
+      });
+    </script>
+  </body>
+</html>
