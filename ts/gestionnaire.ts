@@ -79,8 +79,12 @@ export default class Gestionnaire {
   public verifierMot(mot: string, skipAnimation: boolean = false): void {
     mot = this._dictionnaire.nettoyerMot(mot);
     //console.debug(mot + " => " + (this._dictionnaire.estMotValide(mot) ? "Oui" : "non"));
-    if (mot[0] !== this._motATrouver[0] || !this._dictionnaire.estMotValide(mot)) {
-      NotificationMessage.ajouterNotification("Ce mot n'est pas valide");
+    if (mot[0] !== this._motATrouver[0]) {
+      NotificationMessage.ajouterNotification("Le mot proposé doit commencer par la même lettre que le mot recherché");
+      return;
+    }
+    if (!this._dictionnaire.estMotValide(mot)) {
+      NotificationMessage.ajouterNotification("Ce mot n'est pas dans notre dictionnaire");
       return;
     }
     if (!this._datePartieEnCours) this._datePartieEnCours = new Date();
