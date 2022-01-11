@@ -8,7 +8,7 @@ var fs = require("fs");
 fs.readFile("public/mots.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
   var dictionnaire = contenu.split("\n");
-  contenu = "private readonly _dictionnaire: Array<string> = [\n";
+  contenu = "public static readonly Dictionnaire: Array<string> = [\n";
   contenu += dictionnaire
     .map((mot) => mot.normalize("NFD").replace(/\p{Diacritic}/gu, ""))
     .filter(

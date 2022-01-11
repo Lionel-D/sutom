@@ -64692,6 +64692,8 @@ export default class ListeMotsProposables {
     "GLAISONS",
     "GLAIVE",
     "GLAIVES",
+    "GLAMOUR",
+    "GLAMOURS",
     "GLANAGE",
     "GLANAGES",
     "GLANAI",

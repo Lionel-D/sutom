@@ -25,14 +25,15 @@ let origine = new Date(2022, 0, 8).getTime();
 
 let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000));
 
-const maxFige = numeroGrille; // inclus
+const maxFige = numeroGrille + 1; // inclus
+console.log(maxFige);
 fs.readFile("public/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
   var dictionnaire = contenu.split("\n");
   let motsFiges = dictionnaire.slice(0, maxFige + 1);
   let motsMelanges = shuffle(dictionnaire.slice(maxFige + 1));
 
-  contenu = "private readonly _motATrouve: Array<string> = [\n";
+  contenu = "public static readonly Liste: Array<string> = [\n";
   contenu +=
     motsFiges
       .map(
