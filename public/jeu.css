@@ -40,6 +40,11 @@ body {
   }
 }
 
+h1 {
+  margin-top: 0.1em;
+  margin-bottom: 0.25em;
+}
+
 #grille {
   margin-left: auto;
   margin-right: auto;
@@ -99,10 +104,19 @@ body {
 #input-area {
   margin-top: 0.5em;
   margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+}
+
+.input-ligne {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25em;
 }
 
 .input-ligne + .input-ligne {
-  margin-top: 0.5em;
+  margin-top: 0.25em;
 }
 
 .input-lettre {
@@ -112,6 +126,15 @@ body {
   padding: 0.5em;
   user-select: none;
   min-width: 0.5em;
+  flex-grow: 3;
+}
+
+.input-lettre.input-lettre-vide {
+  border: 0;
+}
+
+.input-lettre.input-lettre-entree {
+  flex-grow: 6;
 }
 
 .input-lettre.lettre-bien-place {
@@ -130,6 +153,11 @@ body {
 .input-lettre:hover,
 .input-lettre:active {
   cursor: pointer;
+}
+
+.input-lettre.input-lettre-vide:hover,
+.input-lettre.input-lettre-vide:active {
+  cursor: initial;
 }
 
 #regles-panel {
