@@ -67,8 +67,9 @@ export default class Input {
 
   private effacerLettre(): void {
     if (this._estBloque) return;
-    if (this._motSaisi.length === 0) return;
-    this._motSaisi = this._motSaisi.substring(0, this._motSaisi.length - 1);
+    if (this._motSaisi.length !== 0) {
+      this._motSaisi = this._motSaisi.substring(0, this._motSaisi.length - 1);
+    }
     this._gestionnaire.actualiserAffichage(this._motSaisi);
   }
 
