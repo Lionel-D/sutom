@@ -13,7 +13,7 @@ export default class NotificationMessage {
         this._notificationArea.style.opacity = "0";
         this._currentTimeout = setTimeout(
           (() => {
-            this._notificationArea.innerHTML = "";
+            this._notificationArea.innerHTML = " ";
             this._currentTimeout = undefined;
           }).bind(this),
           1000
