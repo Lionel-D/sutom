@@ -1,3 +1,5 @@
+import AudioPanel from "./audioPanel";
+import Configuration from "./configuration";
 import LettreResultat from "./lettreResultat";
 import { LettreStatut } from "./lettreStatut";
 
@@ -7,12 +9,14 @@ export default class Grille {
   private readonly _resultats: Array<Array<LettreResultat>>;
   private readonly _longueurMot: number;
   private readonly _maxPropositions: number;
+  private readonly _audioPanel: AudioPanel;
+
   private _indice: Array<string | undefined>;
   private _motActuel: number;
 
-  public constructor(longueurMot: number, maxPropositions: number, indice: string) {
+  public constructor(longueurMot: number, maxPropositions: number, indice: string, configuration: Configuration) {
     this._grille = document.getElementById("grille") as HTMLElement;
-    //console.log("Chargement de la grille");
+    this._audioPanel = new AudioPanel(configuration);
 
     this._longueurMot = longueurMot;
     this._maxPropositions = maxPropositions;
@@ -119,19 +123,20 @@ export default class Grille {
     let cellule = td[numLettre];
     let resultat = resultats[numLettre];
     cellule.innerHTML = resultat.lettre;
+    let callback = (() => this.animerLettre(td, resultats, numLettre + 1)).bind(this);
     switch (resultat.statut) {
       case LettreStatut.BienPlace:
         cellule.classList.add("bien-place", "resultat");
-
+        this._audioPanel.jouerSonLettreBienPlace(callback);
         break;
       case LettreStatut.MalPlace:
         cellule.classList.add("mal-place", "resultat");
-
+        this._audioPanel.jouerSonLettreMalPlace(callback);
         break;
       default:
         cellule.classList.add("non-trouve", "resultat");
+        this._audioPanel.jouerSonLettreNonTrouve(callback);
     }
-    setTimeout((() => this.animerLettre(td, resultats, numLettre + 1)).bind(this), 250);
   }
 
   private mettreAJourIndice(resultats: Array<LettreResultat>): void {

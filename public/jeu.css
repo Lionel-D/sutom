@@ -6,6 +6,7 @@
   --couleur-mal-place: #ffbd00;
   --couleur-fond-grille: #0077c7;
   --couleur-non-trouve: rgb(112, 112, 112);
+  --couleur-icone: rgb(200, 200, 200);
 }
 
 @font-face {
@@ -40,9 +41,24 @@ body {
   }
 }
 
-h1 {
+header {
+  display: grid;
+  grid-template-columns: 1fr 6fr 1fr;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 1px solid white;
   margin-top: 0.1em;
   margin-bottom: 0.25em;
+}
+
+h1 {
+  margin: 0;
+}
+
+#configuration-audio-icone {
+  height: 32px;
+  width: 40px;
 }
 
 #grille {
