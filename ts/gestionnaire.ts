@@ -79,6 +79,10 @@ export default class Gestionnaire {
   public verifierMot(mot: string, skipAnimation: boolean = false): void {
     mot = this._dictionnaire.nettoyerMot(mot);
     //console.debug(mot + " => " + (this._dictionnaire.estMotValide(mot) ? "Oui" : "non"));
+    if (mot.length !== this._motATrouver.length) {
+      NotificationMessage.ajouterNotification("Le mot proposé est trop court");
+      return;
+    }
     if (mot[0] !== this._motATrouver[0]) {
       NotificationMessage.ajouterNotification("Le mot proposé doit commencer par la même lettre que le mot recherché");
       return;

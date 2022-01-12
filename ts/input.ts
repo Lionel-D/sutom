@@ -76,8 +76,8 @@ export default class Input {
   private validerMot(): void {
     if (this._estBloque) return;
     let mot = this._motSaisi;
+    this._gestionnaire.verifierMot(mot);
     if (mot.length === this._longueurMot) {
-      this._gestionnaire.verifierMot(mot);
       this._motSaisi = "";
     }
   }
