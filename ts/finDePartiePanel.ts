@@ -3,7 +3,6 @@ import { LettreStatut } from "./lettreStatut";
 import NotificationMessage from "./notificationMessage";
 
 export default class FinDePartiePanel {
-  private readonly _reglesPanel: HTMLElement;
   private readonly _finDePartiePanel: HTMLElement;
   private readonly _victoirePanel: HTMLElement;
   private readonly _defaitePanel: HTMLElement;
@@ -14,7 +13,6 @@ export default class FinDePartiePanel {
   private _resumeTexte: string = "";
 
   public constructor() {
-    this._reglesPanel = document.getElementById("regles-panel") as HTMLElement;
     this._finDePartiePanel = document.getElementById("fin-de-partie-panel") as HTMLElement;
     this._victoirePanel = document.getElementById("victoire-panel") as HTMLElement;
     this._defaitePanel = document.getElementById("defaite-panel") as HTMLElement;
@@ -59,7 +57,6 @@ export default class FinDePartiePanel {
   }
 
   public afficher(estVictoire: boolean, motATrouver: string): void {
-    this._reglesPanel.style.display = "none";
     this._finDePartiePanel.style.display = "block";
 
     if (estVictoire) this._victoirePanel.style.display = "block";
