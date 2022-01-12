@@ -27,17 +27,15 @@ export default class Input {
 
         if (touche === "Enter") {
           this.validerMot();
-        } else if (touche === "Backspace") {
-          this.effacerLettre();
         } else {
           this.saisirLettre(touche);
         }
       }).bind(this)
     );
 
-    // Le retour arrière n'est détecté que par keyup
+    // Le retour arrière n'est détecté que par keydown
     document.addEventListener(
-      "keyup",
+      "keydown",
       ((event: KeyboardEvent) => {
         event.stopPropagation();
         let touche = event.key;

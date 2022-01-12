@@ -9,7 +9,7 @@ export default class Dictionnaire {
 
     let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000));
 
-    return MotsATrouver.Liste[numeroGrille];
+    return MotsATrouver.Liste[numeroGrille % MotsATrouver.Liste.length];
   }
 
   public estMotValide(mot: string): boolean {
