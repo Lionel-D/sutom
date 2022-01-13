@@ -27,7 +27,7 @@ export default class Input {
 
         if (touche === "Enter") {
           this.validerMot();
-        } else {
+        } else if (touche !== "Backspace") {
           this.saisirLettre(touche);
         }
       }).bind(this)
