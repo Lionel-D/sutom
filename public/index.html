@@ -92,7 +92,7 @@
           Merci à Emmanuel pour l'aide sur les mots à trouver, et à GaranceAmarante pour l'aide sur le dictionnaire.
         </p>
       </div>
-      <div style="display: hidden">
+      <div style="display: none">
         <audio preload src="sons/lettre-non-trouve.wav" id="son-lettre-non-trouve"></audio>
         <audio preload src="sons/lettre-mal-place.wav" id="son-lettre-mal-place"></audio>
         <audio preload src="sons/lettre-bien-place.wav" id="son-lettre-bien-place"></audio>
@@ -144,6 +144,9 @@
       </div>
     </div>
     <script type="text/javascript">
+      requirejs.config({
+        waitSeconds: 20,
+      });
       requirejs(["main"], function (Main) {
         var socket = new Main.default();
       });
