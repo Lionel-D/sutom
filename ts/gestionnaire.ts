@@ -97,13 +97,16 @@ export default class Gestionnaire {
     let isBonneReponse = resultats.every((item) => item.statut === LettreStatut.BienPlace);
     this._propositions.push(mot);
     this._resultats.push(resultats);
-    this._grille.validerMot(mot, resultats, isBonneReponse, skipAnimation);
-    this._input.updateClavier(resultats);
+    this._grille.validerMot(mot, resultats, isBonneReponse, skipAnimation, () => {
+      this._input.updateClavier(resultats);
+      if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
+        this._victoirePanel.afficher(isBonneReponse, this._motATrouver);
+      }
+    });
 
     if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
       this._input.bloquer();
       this._victoirePanel.genererResume(isBonneReponse, this._resultats);
-      this._victoirePanel.afficher(isBonneReponse, this._motATrouver);
       this.enregistrerPartieDansStats();
     }
 

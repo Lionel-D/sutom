@@ -82,12 +82,12 @@ export default class Grille {
     this.afficherGrille();
   }
 
-  public validerMot(mot: string, resultats: Array<LettreResultat>, isBonneReponse: boolean, skipAnimation: boolean = false): void {
+  public validerMot(mot: string, resultats: Array<LettreResultat>, isBonneReponse: boolean, skipAnimation: boolean = false, endCallback?: () => void): void {
     this.saisirMot(this._motActuel, mot);
     this.mettreAJourIndice(resultats);
     this._resultats.push(resultats);
 
-    if (!skipAnimation) this.animerResultats(resultats);
+    if (!skipAnimation) this.animerResultats(resultats, endCallback);
 
     if (isBonneReponse) {
       this.bloquerGrille();
@@ -95,35 +95,41 @@ export default class Grille {
       this._motActuel++;
     }
 
-    if (skipAnimation) this.afficherGrille();
+    if (skipAnimation) {
+      this.afficherGrille();
+      if (endCallback) endCallback();
+    }
   }
 
-  private animerResultats(resultats: Array<LettreResultat>): void {
+  private animerResultats(resultats: Array<LettreResultat>, endCallback?: () => void): void {
     let table = this._grille.getElementsByTagName("table").item(0);
     if (table === null) {
       this.afficherGrille();
+      if (endCallback) endCallback();
       return;
     }
 
     let ligne = table.getElementsByTagName("tr").item(this._motActuel);
     if (ligne === null) {
       this.afficherGrille();
+      if (endCallback) endCallback();
       return;
     }
 
     let td = ligne.getElementsByTagName("td");
-    this.animerLettre(td, resultats, 0);
+    this.animerLettre(td, resultats, 0, endCallback);
   }
 
-  private animerLettre(td: HTMLCollectionOf<HTMLTableCellElement>, resultats: Array<LettreResultat>, numLettre: number): void {
+  private animerLettre(td: HTMLCollectionOf<HTMLTableCellElement>, resultats: Array<LettreResultat>, numLettre: number, endCallback?: () => void): void {
     if (numLettre >= td.length) {
       this.afficherGrille();
+      if (endCallback) endCallback();
       return;
     }
     let cellule = td[numLettre];
     let resultat = resultats[numLettre];
     cellule.innerHTML = resultat.lettre;
-    let callback = (() => this.animerLettre(td, resultats, numLettre + 1)).bind(this);
+    let callback = (() => this.animerLettre(td, resultats, numLettre + 1, endCallback)).bind(this);
     switch (resultat.statut) {
       case LettreStatut.BienPlace:
         cellule.classList.add("bien-place", "resultat");
