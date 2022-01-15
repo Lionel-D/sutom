@@ -1,8 +1,4 @@
 node_modules/
 js/
-public/mots.txt
-public/motsATrouve.txt
-public/motsATrouveNettoyes.txt
-public/motsNettoyes.txt
-ts/mots/motsATrouver.prod.ts
-ts/mots/motsATrouver.exemple.ts
+public/*.txt
+ts/mots/motsATrouver.*.ts

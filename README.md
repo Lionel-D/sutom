@@ -24,7 +24,7 @@ Une fois démarré, le site sera dispo sur http://localhost:4000 et le typescrip
 
 ## Autres infos et remerciements
 
-- Le dictionnaire vient d'ici : https://chrplr.github.io/openlexicon/datasets-info/Liste-de-mots-francais-Gutenberg/README-liste-francais-Gutenberg.html
-- Merci à Emmanuel pour m'avoir fourni des mots à trouver
+- Le dictionnaire utilisé est celui de [Grammalecte](https://grammalecte.net/dictionary.php?prj=fr). Merci à GaranceAmarante pour le script.
+- Merci à Emmanuel pour m'avoir fourni des mots à trouver.
 - Merci à tous les gens qui me remontent des bugs et qui me donnent des idées, ça m'aide beaucoup :)
 - Merci à toutes les personnes qui jouent, c'est une belle récompense que vous me donnez.

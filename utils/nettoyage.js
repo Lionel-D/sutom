@@ -7,10 +7,16 @@ var fs = require("fs");
 
 fs.readFile("public/mots.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
-  var dictionnaire = contenu.split("\n");
-  contenu = "public static readonly Dictionnaire: Array<string> = [\n";
-  contenu += dictionnaire
-    .map((mot) => mot.normalize("NFD").replace(/\p{Diacritic}/gu, ""))
+  var dictionnaire = contenu
+    .split("\n")
+    .filter((mot) => mot)
+    .map((mot) =>
+      mot
+        .normalize("NFD")
+        .replace(/æ/gu, "ae")
+        .replace(/œ/gu, "oe")
+        .replace(/\p{Diacritic}/gu, "")
+    )
     .filter(
       (mot) =>
         !(mot[0] === mot[0].toUpperCase()) &&
@@ -25,12 +31,15 @@ fs.readFile("public/mots.txt", "UTF8", function (erreur, contenu) {
         !mot.toUpperCase().startsWith("X") &&
         !mot.toUpperCase().startsWith("Y") &&
         !mot.toUpperCase().startsWith("Z")
-    )
+    );
+  dictionnaire.sort();
+  contenu = "public static readonly Dictionnaire: Array<string> = [\n";
+  contenu += dictionnaire
     .map(function (mot) {
       return '"' + mot.toUpperCase() + '",';
     })
     .join("\n");
-  contenu += "\n]";
+  contenu += "\n];";
   fs.writeFile("public/motsNettoyes.txt", contenu, function (err) {
     if (err) {
       console.error(err);
