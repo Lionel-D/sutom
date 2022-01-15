@@ -118,17 +118,17 @@ h1 {
 }
 
 #input-area {
-  margin-top: 0.5em;
-  margin-bottom: 2em;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0.5em auto 2em;
   max-width: 100%;
+  width: calc(100% - 20px);
+  max-width: 500px;
 }
 
 .input-ligne {
   display: flex;
   justify-content: space-between;
   gap: 0.25em;
+  width: 100%;
 }
 
 .input-ligne + .input-ligne {
@@ -139,18 +139,24 @@ h1 {
   font-size: 18px;
   display: inline-block;
   border: 1px solid white;
-  padding: 0.5em;
+  border-radius: 5px;
   user-select: none;
-  min-width: 0.5em;
-  flex-grow: 3;
+  flex-grow: 1;
+  flex-shrink: 0;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
 }
 
 .input-lettre.input-lettre-vide {
   border: 0;
+  flex-grow: 2;
 }
 
 .input-lettre.input-lettre-entree {
-  flex-grow: 6;
+  flex-grow: 2;
 }
 
 .input-lettre.lettre-bien-place {
