@@ -100,12 +100,12 @@ export default class Gestionnaire {
     this._grille.validerMot(mot, resultats, isBonneReponse, skipAnimation, () => {
       this._input.updateClavier(resultats);
       if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
+        this._input.bloquer();
         this._victoirePanel.afficher(isBonneReponse, this._motATrouver);
       }
     });
 
     if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
-      this._input.bloquer();
       this._victoirePanel.genererResume(isBonneReponse, this._resultats);
       this.enregistrerPartieDansStats();
     }
