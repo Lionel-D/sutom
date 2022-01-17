@@ -6,14 +6,16 @@ export default class Input {
   private readonly _grille: HTMLElement;
   private readonly _inputArea: HTMLElement;
   private readonly _gestionnaire: Gestionnaire;
+  private readonly _premiereLettre: string;
 
   private _longueurMot: number;
   private _motSaisi: string;
   private _estBloque: boolean;
 
-  public constructor(gestionnaire: Gestionnaire, longueurMot: number) {
+  public constructor(gestionnaire: Gestionnaire, longueurMot: number, premiereLettre: string) {
     this._grille = document.getElementById("grille") as HTMLElement;
     this._inputArea = document.getElementById("input-area") as HTMLElement;
+    this._premiereLettre = premiereLettre;
     this._longueurMot = longueurMot;
     this._gestionnaire = gestionnaire;
     this._motSaisi = "";
@@ -85,6 +87,7 @@ export default class Input {
   private saisirLettre(lettre: string): void {
     if (this._estBloque) return;
     if (this._motSaisi.length >= this._longueurMot) return;
+    if (this._motSaisi.length === 0 && lettre.toUpperCase() !== this._premiereLettre) this._motSaisi += this._premiereLettre;
     this._motSaisi += lettre;
     this._gestionnaire.actualiserAffichage(this._motSaisi);
   }

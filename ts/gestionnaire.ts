@@ -29,7 +29,7 @@ export default class Gestionnaire {
     this._dictionnaire = new Dictionnaire();
     this._motATrouver = this.choisirMot();
     this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._config);
-    this._input = new Input(this, this._motATrouver.length);
+    this._input = new Input(this, this._motATrouver.length, this._motATrouver[0]);
     this._victoirePanel = new FinDePartiePanel();
     this._propositions = new Array<string>();
     this._resultats = new Array<Array<LettreResultat>>();
