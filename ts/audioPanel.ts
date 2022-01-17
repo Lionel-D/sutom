@@ -9,6 +9,8 @@ export default class AudioPanel {
   private readonly _audioLettreMalPlace: HTMLAudioElement;
   private readonly _audioLettreNonTrouve: HTMLAudioElement;
 
+  private readonly _longueurSon: number = 220;
+
   private _hasAudio: boolean = false;
 
   public constructor(configuration: Configuration) {
@@ -61,7 +63,7 @@ export default class AudioPanel {
 
   private jouerSon(baliseAudio: HTMLAudioElement, callback?: () => void): void {
     if (!this._hasAudio) {
-      if (callback) setTimeout(callback, 250);
+      if (callback) setTimeout(callback, this._longueurSon);
       return;
     }
     baliseAudio.currentTime = 0;
@@ -70,14 +72,14 @@ export default class AudioPanel {
       baliseAudio.play().catch(
         (() => {
           this._hasAudio = false;
-          if (callback) setTimeout(callback, 250);
+          if (callback) setTimeout(callback, this._longueurSon);
         }).bind(this)
       );
     } catch (
       ex // Parfois, le play ne retourne pas de promise…
     ) {
       this._hasAudio = false;
-      if (callback) setTimeout(callback, 250);
+      if (callback) setTimeout(callback, this._longueurSon);
     }
   }
 }
