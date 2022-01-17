@@ -41,6 +41,15 @@ body {
   }
 }
 
+@media (max-height: 640px) {
+  :root {
+    --taille-cellule: 36px;
+  }
+  body {
+    font-size: 24px;
+  }
+}
+
 header {
   display: grid;
   grid-template-columns: 1fr 6fr 1fr;
