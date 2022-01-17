@@ -74,6 +74,7 @@ h1 {
   margin-left: auto;
   margin-right: auto;
   background-color: var(--couleur-fond-grille);
+  min-height: calc(6 * var(--taille-cellule) + 12 * var(--epaisseur-bordure-cellule));
 }
 
 #grille table {
