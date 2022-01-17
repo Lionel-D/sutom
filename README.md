@@ -4,7 +4,7 @@ Jeu de lettres en ligne (et en français) basé sur Wordle. Le jeu se trouve à 
 
 ## Contributions
 
-Tout d'abord, merci si vous contribuer :) Pour l'instant, le mieux, c'est de créer un ticket quand vous voyez un bug, ça me permettra de trier et de prioriser tout ce que je dois faire. Comme la base de code n'est pas aussi propre que je voudrais, merci de créer un ticket et d'attendre un retour de ma part ( @JonathanMM ) avant de vous lancer à corps perdu dans le code.
+Tout d'abord, merci si vous contribuez :) Pour l'instant, le mieux, c'est de créer un ticket quand vous voyez un bug, ça me permettra de trier et de prioriser tout ce que je dois faire. Comme la base de code n'est pas aussi propre que je voudrais, merci de créer un ticket et d'attendre un retour de ma part ( @JonathanMM ) avant de vous lancer à corps perdu dans le code.
 
 ## Développement
 
