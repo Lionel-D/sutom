@@ -66,11 +66,18 @@ export default class AudioPanel {
     }
     baliseAudio.currentTime = 0;
     if (callback) baliseAudio.addEventListener("ended", callback, { once: true });
-    baliseAudio.play().catch(
-      (() => {
-        this._hasAudio = false;
-        if (callback) setTimeout(callback, 250);
-      }).bind(this)
-    );
+    try {
+      baliseAudio.play().catch(
+        (() => {
+          this._hasAudio = false;
+          if (callback) setTimeout(callback, 250);
+        }).bind(this)
+      );
+    } catch (
+      ex // Parfois, le play ne retourne pas de promise…
+    ) {
+      this._hasAudio = false;
+      if (callback) setTimeout(callback, 250);
+    }
   }
 }
