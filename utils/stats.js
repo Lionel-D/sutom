@@ -4,7 +4,7 @@
  */
 var fs = require("fs");
 
-fs.readFile("public/motsATrouve.txt", "UTF8", function (erreur, contenu) {
+fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
   var dictionnaire = contenu.split("\n");
   let lettres = {};

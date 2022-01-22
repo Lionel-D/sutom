@@ -33,21 +33,9 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   let motsFiges = dictionnaire.slice(0, maxFige + 1);
   let motsMelanges = shuffle(dictionnaire.slice(maxFige + 1));
 
-  contenu = "public static readonly Liste: Array<string> = [\n";
-  contenu +=
-    motsFiges
-      .map(
-        (mot) =>
-          '"' +
-          mot
-            .normalize("NFD")
-            .replace(/\p{Diacritic}/gu, "")
-            .toUpperCase() +
-          '",'
-      )
-      .join("\n") + "\n";
+  var contenu = "";
+  contenu += motsFiges.join("\n") + "\n";
   contenu += motsMelanges
-    .map((mot) => mot.normalize("NFD").replace(/\p{Diacritic}/gu, ""))
     .filter(
       (mot) =>
         mot &&
@@ -63,16 +51,19 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
         !mot.toUpperCase().startsWith("Y") &&
         !mot.toUpperCase().startsWith("Z")
     )
-    .map(function (mot) {
-      return '"' + mot.toUpperCase() + '",';
-    })
     .join("\n");
-  contenu += "\n]";
-  fs.writeFile("data/motsATrouveNettoyes.txt", contenu, function (err) {
-    if (err) {
-      console.error(err);
-      return;
+  fs.writeFile(
+    "data/motsATrouve.txt",
+    contenu,
+    {
+      flag: "w",
+    },
+    function (err) {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      //file written successfully
     }
-    //file written successfully
-  });
+  );
 });

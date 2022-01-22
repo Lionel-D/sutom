@@ -5,7 +5,7 @@
  */
 var fs = require("fs");
 
-fs.readFile("public/mots.txt", "UTF8", function (erreur, contenu) {
+fs.readFile("data/mots.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
   var dictionnaire = contenu
     .split("\n")
@@ -40,7 +40,7 @@ fs.readFile("public/mots.txt", "UTF8", function (erreur, contenu) {
     })
     .join("\n");
   contenu += "\n];";
-  fs.writeFile("public/motsNettoyes.txt", contenu, function (err) {
+  fs.writeFile("data/motsNettoyes.txt", contenu, function (err) {
     if (err) {
       console.error(err);
       return;

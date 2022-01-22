@@ -8,7 +8,7 @@ var readlineSync = require("readline-sync");
 
 function start() {
   let motsGardes = [];
-  fs.readFile("public/mots.txt", "UTF8", function (erreur, contenu) {
+  fs.readFile("data/mots.txt", "UTF8", function (erreur, contenu) {
     //console.log(erreur);
     var dictionnaire = contenu.split("\n");
     while (true) {
@@ -39,7 +39,7 @@ function start() {
       let isGarde = reponse.toLowerCase() === "o";
       if (isGarde) motsGardes.push(mot);
     }
-    fs.appendFile("public/motsATrouve.txt", motsGardes.join("\n") + "\n", (err) => {
+    fs.appendFile("data/motsATrouve.txt", motsGardes.join("\n") + "\n", (err) => {
       if (err) {
         console.error(err);
         return;
