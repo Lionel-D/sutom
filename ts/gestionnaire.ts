@@ -8,6 +8,7 @@ import NotificationMessage from "./notificationMessage";
 import SauvegardeStats from "./sauvegardeStats";
 import Sauvegardeur from "./sauvegardeur";
 import Configuration from "./configuration";
+import PartieEnCours from "./partieEnCours";
 
 export default class Gestionnaire {
   private readonly _dictionnaire: Dictionnaire;
@@ -20,33 +21,47 @@ export default class Gestionnaire {
   private _motATrouver: string;
   private _compositionMotATrouver: { [lettre: string]: number };
   private _maxNbPropositions: number = 6;
-  private _datePartieEnCours: Date | undefined;
+  private _datePartieEnCours: Date;
   private _stats: SauvegardeStats = { partiesJouees: 0, partiesGagnees: 0 };
   private _config: Configuration = Configuration.Default;
 
   public constructor() {
     this._config = Sauvegardeur.chargerConfig() ?? this._config;
+
+    let partieEnCours = this.chargerPartieEnCours();
+
+    if (partieEnCours.datePartie) {
+      this._datePartieEnCours = partieEnCours.datePartie;
+    } else {
+      this._datePartieEnCours = new Date();
+    }
+
     this._dictionnaire = new Dictionnaire();
-    this._motATrouver = this.choisirMot();
+    this._motATrouver = this.choisirMot(this._datePartieEnCours);
     this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._config);
     this._input = new Input(this, this._motATrouver.length, this._motATrouver[0]);
-    this._victoirePanel = new FinDePartiePanel();
     this._propositions = new Array<string>();
     this._resultats = new Array<Array<LettreResultat>>();
     this._compositionMotATrouver = this.decompose(this._motATrouver);
+    this._victoirePanel = new FinDePartiePanel(this._datePartieEnCours);
 
-    this.chargerSauvegarde();
+    this.chargerPropositions(partieEnCours.propositions);
   }
 
-  private chargerSauvegarde(): void {
-    let sauvegardePartieEnCours = Sauvegardeur.chargerSauvegardePartieEnCours();
-    if (sauvegardePartieEnCours) {
-      this._datePartieEnCours = sauvegardePartieEnCours.datePartie;
-      for (let mot of sauvegardePartieEnCours.propositions) {
-        this.verifierMot(mot, true);
-      }
-    }
+  private chargerPartieEnCours(): PartieEnCours {
     this._stats = Sauvegardeur.chargerSauvegardeStats() ?? { partiesJouees: 0, partiesGagnees: 0 };
+
+    let sauvegardePartieEnCours = Sauvegardeur.chargerSauvegardePartieEnCours();
+    if (sauvegardePartieEnCours) return sauvegardePartieEnCours;
+
+    return new PartieEnCours();
+  }
+
+  private chargerPropositions(propositions: Array<string> | undefined): void {
+    if (!propositions || propositions.length === 0) return;
+    for (let mot of propositions) {
+      this.verifierMot(mot, true);
+    }
   }
 
   private enregistrerPartieDansStats(): void {
@@ -58,13 +73,11 @@ export default class Gestionnaire {
   }
 
   private sauvegarderPartieEnCours(): void {
-    let datePartieEnCours = this._datePartieEnCours ?? new Date();
-
-    Sauvegardeur.sauvegarderPartieEnCours(this._propositions, datePartieEnCours);
+    Sauvegardeur.sauvegarderPartieEnCours(this._propositions, this._datePartieEnCours);
   }
 
-  private choisirMot(): string {
-    return this._dictionnaire.nettoyerMot(this._dictionnaire.getMot());
+  private choisirMot(datePartie: Date): string {
+    return this._dictionnaire.nettoyerMot(this._dictionnaire.getMot(datePartie));
   }
 
   private decompose(mot: string): { [lettre: string]: number } {

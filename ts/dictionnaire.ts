@@ -3,8 +3,8 @@ import MotsATrouver from "./mots/motsATrouver";
 export default class Dictionnaire {
   public constructor() {}
 
-  public getMot(): string {
-    let aujourdhui = new Date().getTime();
+  public getMot(datePartie: Date): string {
+    let aujourdhui = datePartie.getTime();
     let origine = new Date(2022, 0, 8).getTime();
 
     let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000));

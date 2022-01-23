@@ -9,16 +9,19 @@ export default class FinDePartiePanel {
   private readonly _defaitePanelMot: HTMLElement;
   private readonly _resume: HTMLPreElement;
   private readonly _resumeBouton: HTMLElement;
+  private readonly _datePartie: Date;
 
   private _resumeTexte: string = "";
 
-  public constructor() {
+  public constructor(datePartie: Date) {
     this._finDePartiePanel = document.getElementById("fin-de-partie-panel") as HTMLElement;
     this._victoirePanel = document.getElementById("victoire-panel") as HTMLElement;
     this._defaitePanel = document.getElementById("defaite-panel") as HTMLElement;
     this._defaitePanelMot = document.getElementById("defaite-panel-mot") as HTMLElement;
     this._resume = document.getElementById("fin-de-partie-panel-resume") as HTMLPreElement;
     this._resumeBouton = document.getElementById("fin-de-partie-panel-resume-bouton") as HTMLElement;
+
+    this._datePartie = datePartie;
 
     this._resumeBouton.addEventListener("click", (event) => {
       event.stopPropagation();
@@ -32,7 +35,7 @@ export default class FinDePartiePanel {
     });
   }
 
-  public genererResume(aBonneReponse: boolean, resultats: Array<Array<LettreResultat>>): void {
+  public genererResume(estBonneReponse: boolean, resultats: Array<Array<LettreResultat>>): void {
     let resultatsEmojis = resultats.map((mot) =>
       mot
         .map((resultat) => resultat.statut)
@@ -47,12 +50,12 @@ export default class FinDePartiePanel {
           }
         }, "")
     );
-    let aujourdhui = new Date().getTime();
+    let dateGrille = this._datePartie.getTime();
     let origine = new Date(2022, 0, 8).getTime();
 
-    let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000)) + 1;
+    let numeroGrille = Math.floor((dateGrille - origine) / (24 * 3600 * 1000)) + 1;
 
-    this._resumeTexte = "SUTOM #" + numeroGrille + " " + (aBonneReponse ? resultats.length : "-") + "/6\n\n" + resultatsEmojis.join("\n");
+    this._resumeTexte = "SUTOM #" + numeroGrille + " " + (estBonneReponse ? resultats.length : "-") + "/6\n\n" + resultatsEmojis.join("\n");
     this._resume.innerText = this._resumeTexte;
   }
 

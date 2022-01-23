@@ -1,4 +1,5 @@
 import Configuration from "./configuration";
+import PartieEnCours from "./partieEnCours";
 import SauvegardePartie from "./sauvegardePartie";
 import SauvegardeStats from "./sauvegardeStats";
 
@@ -27,7 +28,7 @@ export default class Sauvegardeur {
     localStorage.setItem(this._clePartieEnCours, JSON.stringify(partieEnCours));
   }
 
-  public static chargerSauvegardePartieEnCours(): { propositions: Array<string>; datePartie: Date } | undefined {
+  public static chargerSauvegardePartieEnCours(): PartieEnCours | undefined {
     let dataPartieEnCours = localStorage.getItem(this._clePartieEnCours);
     if (!dataPartieEnCours) return;
 
