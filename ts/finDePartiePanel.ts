@@ -29,9 +29,14 @@ export default class FinDePartiePanel {
         NotificationMessage.ajouterNotification("Votre navigateur n'est pas compatible");
       }
 
-      navigator.clipboard.writeText(this._resumeTexte + "\n\nhttps://sutom.nocle.fr");
-
-      NotificationMessage.ajouterNotification("Résumé copié dans le presse papier");
+      navigator.clipboard
+        .writeText(this._resumeTexte + "\n\nhttps://sutom.nocle.fr")
+        .then(() => {
+          NotificationMessage.ajouterNotification("Résumé copié dans le presse papier");
+        })
+        .catch((raison) => {
+          NotificationMessage.ajouterNotification("Votre navigateur n'est pas compatible");
+        });
     });
   }
 
