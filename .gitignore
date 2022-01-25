@@ -3,3 +3,4 @@ data/
 js/
 node_modules/
 ts/mots/motsATrouver.*.ts
+cron.prod.sh

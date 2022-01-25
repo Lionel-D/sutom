@@ -32,7 +32,12 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
   var dictionnaire = contenu.split("\n");
   let motsFiges = dictionnaire.slice(0, maxFige + 1);
-  let motsMelanges = shuffle(dictionnaire.slice(maxFige + 1));
+  let motsMelanges;
+  let nbEssais = 0;
+  do {
+    motsMelanges = shuffle(dictionnaire.slice(maxFige + 1));
+    nbEssais++;
+  } while (motsFiges[motsFiges.length - 1][0].toUpperCase() === motsMelanges[0][0].toUpperCase() && nbEssais <= 20);
 
   var contenu = "";
   contenu += motsFiges.join("\n") + "\n";
