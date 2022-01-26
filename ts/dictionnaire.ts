@@ -1,5 +1,5 @@
 import ListeMotsProposables from "./mots/listeMotsProposables";
-import MotsATrouver from "./mots/motsATrouver";
+import ListeMotsATrouver from "./mots/listeMotsATrouver";
 export default class Dictionnaire {
   public constructor() {}
 
@@ -9,7 +9,7 @@ export default class Dictionnaire {
 
     let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000));
 
-    return MotsATrouver.Liste[numeroGrille % MotsATrouver.Liste.length];
+    return ListeMotsATrouver.Liste[numeroGrille % ListeMotsATrouver.Liste.length];
   }
 
   public estMotValide(mot: string): boolean {

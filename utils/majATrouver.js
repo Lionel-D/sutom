@@ -16,7 +16,7 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   var dictionnaire = contenu.split("\n");
   let motsFiges = dictionnaire.slice(0, maxFige + 2);
 
-  contenu = "export default class MotsATrouver {\n";
+  contenu = "export default class ListeMotsATrouver {\n";
   contenu += " public static readonly Liste: Array<string> = [\n";
   contenu += motsFiges
     .map(
@@ -31,7 +31,7 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
     .join("\n");
   contenu += "\n  ]";
   contenu += "\n}";
-  fs.writeFile("ts/mots/motsATrouver.ts", contenu, function (err) {
+  fs.writeFile("ts/mots/listeMotsATrouver.ts", contenu, function (err) {
     if (err) {
       console.error(err);
       return;
