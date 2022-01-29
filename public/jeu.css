@@ -7,6 +7,8 @@
   --couleur-fond-grille: #0077c7;
   --couleur-non-trouve: rgb(112, 112, 112);
   --couleur-icone: rgb(200, 200, 200);
+  --couleur-fond-rgb: 43, 43, 43;
+  --couleur-fond: rgb(var(--couleur-fond-rgb));
 }
 
 @font-face {
@@ -17,7 +19,7 @@
 body {
   font-family: "Roboto Medium", Ubuntu, Arial, Helvetica, sans-serif;
   font-size: 32px;
-  background-color: #2b2b2b;
+  background-color: var(--couleur-fond);
   height: 100vh;
   text-align: center;
   color: white;
@@ -52,7 +54,7 @@ body {
 
 header {
   display: grid;
-  grid-template-columns: 1fr 6fr 1fr;
+  grid-template-columns: 2fr 6fr 2fr;
   align-items: center;
   justify-content: space-between;
   width: 100%;
@@ -65,9 +67,17 @@ h1 {
   margin: 0;
 }
 
+.header-icones {
+  display: flex;
+  justify-content: space-around;
+}
+
+#configuration-regles-icone,
+#configuration-config-icone,
+#configuration-stats-icone,
 #configuration-audio-icone {
   height: 32px;
-  width: 40px;
+  width: 32px;
 }
 
 #grille {
@@ -93,7 +103,7 @@ h1 {
 }
 
 #grille td:not(.resultat) {
-  background-color: #0077c7;
+  background-color: var(--couleur-fond-grille);
 }
 
 #grille td.resultat::after {
@@ -119,9 +129,7 @@ h1 {
   background-color: var(--couleur-fond-grille);
 }
 
-#fin-de-partie-panel,
-#victoire-panel,
-#defaite-panel {
+#panel-area {
   display: none;
 
   font-size: 24px;
@@ -192,19 +200,73 @@ h1 {
   cursor: initial;
 }
 
-#regles-panel {
+.regles-panel #panel-fenetre {
   font-size: 14px;
   text-align: left;
 }
 
-#regles-panel a,
-#regles-panel a:visited,
-#fin-de-partie-panel a,
-#fin-de-partie-panel a:visited {
+#panel-area a,
+#panel-area a:visited {
   color: white;
 }
 
 #notification {
   opacity: 0;
   transition: opacity linear 1s;
+}
+
+#panel-area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(var(--couleur-fond-rgb), 0.45);
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+}
+
+#panel-fenetre {
+  background-color: var(--couleur-fond);
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 400px;
+  border: 1px solid white;
+  border-radius: 0.25em;
+  margin-top: 3em;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+}
+
+#panel-fenetre-header {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  width: calc(100% - 1em);
+  height: calc(36px + 0.75em);
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  margin-top: 0.25em;
+  margin-bottom: 0.5em;
+}
+
+#panel-fenetre-titre {
+  font-size: 36px;
+  margin: 0;
+}
+
+#panel-fenetre-bouton-fermeture {
+  text-decoration: none;
+}
+
+#panel-fenetre-bouton-fermeture-icone {
+  width: 32px;
+  height: 32px;
+}
+
+@media (max-width: 1024px) {
+  #panel-fenetre {
+    width: 90%;
+  }
 }

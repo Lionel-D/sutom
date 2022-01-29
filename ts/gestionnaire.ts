@@ -9,14 +9,20 @@ import SauvegardeStats from "./sauvegardeStats";
 import Sauvegardeur from "./sauvegardeur";
 import Configuration from "./configuration";
 import PartieEnCours from "./partieEnCours";
+import PanelManager from "./panelManager";
+import ReglesPanel from "./reglesPanel";
+import ConfigurationPanel from "./configurationPanel";
 
 export default class Gestionnaire {
   private readonly _dictionnaire: Dictionnaire;
   private readonly _grille: Grille;
   private readonly _input: Input;
-  private readonly _victoirePanel: FinDePartiePanel;
+  private readonly _reglesPanel: ReglesPanel;
+  private readonly _finDePartiePanel: FinDePartiePanel;
+  private readonly _configurationPanel: ConfigurationPanel;
   private readonly _propositions: Array<string>;
   private readonly _resultats: Array<Array<LettreResultat>>;
+  private readonly _panelManager: PanelManager;
 
   private _motATrouver: string;
   private _compositionMotATrouver: { [lettre: string]: number };
@@ -43,9 +49,14 @@ export default class Gestionnaire {
     this._propositions = new Array<string>();
     this._resultats = new Array<Array<LettreResultat>>();
     this._compositionMotATrouver = this.decompose(this._motATrouver);
-    this._victoirePanel = new FinDePartiePanel(this._datePartieEnCours);
+    this._panelManager = new PanelManager();
+    this._reglesPanel = new ReglesPanel(this._panelManager);
+    this._finDePartiePanel = new FinDePartiePanel(this._datePartieEnCours, this._panelManager);
+    this._configurationPanel = new ConfigurationPanel(this._panelManager);
 
     this.chargerPropositions(partieEnCours.propositions);
+
+    this.afficherReglesSiNecessaire();
   }
 
   private chargerPartieEnCours(): PartieEnCours {
@@ -110,18 +121,19 @@ export default class Gestionnaire {
     let isBonneReponse = resultats.every((item) => item.statut === LettreStatut.BienPlace);
     this._propositions.push(mot);
     this._resultats.push(resultats);
+
+    if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
+      this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._resultats);
+      this.enregistrerPartieDansStats();
+    }
+
     this._grille.validerMot(mot, resultats, isBonneReponse, skipAnimation, () => {
       this._input.updateClavier(resultats);
       if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
         this._input.bloquer();
-        this._victoirePanel.afficher(isBonneReponse, this._motATrouver);
+        this._finDePartiePanel.afficher();
       }
     });
-
-    if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
-      this._victoirePanel.genererResume(isBonneReponse, this._resultats);
-      this.enregistrerPartieDansStats();
-    }
 
     this.sauvegarderPartieEnCours();
   }
@@ -169,5 +181,11 @@ export default class Gestionnaire {
     }
 
     return resultats;
+  }
+
+  private afficherReglesSiNecessaire(): void {
+    if (this._config.afficherRegles !== undefined && !this._config.afficherRegles) return;
+
+    this._reglesPanel.afficher();
   }
 }
