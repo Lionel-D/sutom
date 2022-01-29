@@ -270,3 +270,14 @@ h1 {
     width: 90%;
   }
 }
+
+.config-panel #panel-fenetre-contenu {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+
+.config-item {
+  display: flex;
+  justify-content: space-between;
+}
