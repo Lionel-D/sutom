@@ -3,6 +3,7 @@
  * Petit script qui nettoie le fichier des mots à trouver pour le mettre dans le format attendu par le système
  */
 var fs = require("fs");
+
 var listeMotsProposable = require("../js/mots/listeMotsProposables");
 function shuffle(array) {
   let currentIndex = array.length,
@@ -40,8 +41,9 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   } while (motsFiges[motsFiges.length - 1][0].toUpperCase() === motsMelanges[0][0].toUpperCase() && nbEssais <= 20);
 
   var contenu = "";
-  contenu += motsFiges.join("\n") + "\n";
+  contenu += motsFiges.map((mot) => mot.trim().replace(/^\s+|\s+$/g, "")).join("\n") + "\n";
   contenu += motsMelanges
+    .map((mot) => mot.trim().replace(/^\s+|\s+$/g, ""))
     .filter(
       (mot) =>
         mot &&
