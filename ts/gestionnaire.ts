@@ -32,7 +32,7 @@ export default class Gestionnaire {
   private _compositionMotATrouver: { [lettre: string]: number } = {};
   private _maxNbPropositions: number = 6;
   private _datePartieEnCours: Date;
-  private _stats: SauvegardeStats = { partiesJouees: 0, partiesGagnees: 0 };
+  private _stats: SauvegardeStats = SauvegardeStats.Default;
   private _config: Configuration = Configuration.Default;
 
   public constructor() {
@@ -69,7 +69,7 @@ export default class Gestionnaire {
   }
 
   private chargerPartieEnCours(): PartieEnCours {
-    this._stats = Sauvegardeur.chargerSauvegardeStats() ?? { partiesJouees: 0, partiesGagnees: 0 };
+    this._stats = Sauvegardeur.chargerSauvegardeStats() ?? SauvegardeStats.Default;
 
     let sauvegardePartieEnCours = Sauvegardeur.chargerSauvegardePartieEnCours();
     if (sauvegardePartieEnCours) return sauvegardePartieEnCours;
@@ -86,7 +86,28 @@ export default class Gestionnaire {
 
   private enregistrerPartieDansStats(): void {
     this._stats.partiesJouees++;
-    if (this._resultats.some((resultat) => resultat.every((item) => item.statut === LettreStatut.BienPlace))) this._stats.partiesGagnees++;
+    let estVictoire = this._resultats.some((resultat) => resultat.every((item) => item.statut === LettreStatut.BienPlace));
+    if (estVictoire) {
+      this._stats.partiesGagnees++;
+      let nbEssais = this._resultats.length;
+      if (nbEssais >= 1 && nbEssais <= 6) {
+        this._stats.repartition[nbEssais as 1 | 2 | 3 | 4 | 5 | 6]++;
+      }
+    } else {
+      this._stats.repartition["-"]++;
+    }
+    this._stats.lettresRepartitions.bienPlace += this._resultats.reduce((accumulateur: number, mot: Array<LettreResultat>) => {
+      accumulateur += mot.filter((item) => item.statut == LettreStatut.BienPlace).length;
+      return accumulateur;
+    }, 0);
+    this._stats.lettresRepartitions.malPlace += this._resultats.reduce((accumulateur: number, mot: Array<LettreResultat>) => {
+      accumulateur += mot.filter((item) => item.statut == LettreStatut.MalPlace).length;
+      return accumulateur;
+    }, 0);
+    this._stats.lettresRepartitions.nonTrouve += this._resultats.reduce((accumulateur: number, mot: Array<LettreResultat>) => {
+      accumulateur += mot.filter((item) => item.statut == LettreStatut.NonTrouve).length;
+      return accumulateur;
+    }, 0);
     this._stats.dernierePartie = this._datePartieEnCours;
 
     Sauvegardeur.sauvegarderStats(this._stats);
@@ -110,7 +131,7 @@ export default class Gestionnaire {
     return composition;
   }
 
-  public verifierMot(mot: string, skipAnimation: boolean = false): void {
+  public verifierMot(mot: string, chargementPartie: boolean = false): void {
     mot = this._dictionnaire.nettoyerMot(mot);
     //console.debug(mot + " => " + (this._dictionnaire.estMotValide(mot) ? "Oui" : "non"));
     if (mot.length !== this._motATrouver.length) {
@@ -133,11 +154,11 @@ export default class Gestionnaire {
 
     if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
       this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._resultats);
-      this.enregistrerPartieDansStats();
+      if (!chargementPartie) this.enregistrerPartieDansStats();
     }
 
     if (this._grille)
-      this._grille.validerMot(mot, resultats, isBonneReponse, skipAnimation, () => {
+      this._grille.validerMot(mot, resultats, isBonneReponse, chargementPartie, () => {
         if (this._input) {
           this._input.updateClavier(resultats);
           if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {

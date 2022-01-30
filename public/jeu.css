@@ -302,3 +302,30 @@ h1 {
   display: flex;
   justify-content: space-between;
 }
+
+.stats-area {
+  display: table;
+  padding-left: 0.5em;
+}
+
+.stats-ligne {
+  display: table-row;
+}
+
+.stats-cellule {
+  display: table-cell;
+}
+
+.stats-cellule:first-child {
+  text-align: right;
+}
+
+.stats-cellule:not(:first-child) {
+  padding-left: 0.5em;
+  text-align: left;
+}
+
+.fin-de-partie-panel-phrase {
+  text-align: left;
+  padding-left: 0.5em;
+}

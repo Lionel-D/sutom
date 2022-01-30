@@ -4,7 +4,7 @@ import SauvegardePartie from "./entites/sauvegardePartie";
 import SauvegardeStats from "./entites/sauvegardeStats";
 
 export default class Sauvegardeur {
-  private static readonly _cleStats = "stats";
+  private static readonly _cleStats = "statistiques";
   private static readonly _clePartieEnCours = "partieEnCours";
   private static readonly _cleConfiguration = "configuration";
 
