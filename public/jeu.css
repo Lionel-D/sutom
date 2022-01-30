@@ -9,6 +9,10 @@
   --couleur-icone: rgb(200, 200, 200);
   --couleur-fond-rgb: 43, 43, 43;
   --couleur-fond: rgb(var(--couleur-fond-rgb));
+  --couleur-bordure: #ffffff;
+  --couleur-bordure-grille: #ffffff;
+  --couleur-police: #ffffff;
+  --couleur-police-grille: #ffffff;
 }
 
 @font-face {
@@ -22,7 +26,7 @@ body {
   background-color: var(--couleur-fond);
   height: 100vh;
   text-align: center;
-  color: white;
+  color: var(--couleur-police);
   margin: 0;
   padding: 0;
 }
@@ -58,7 +62,7 @@ header {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid var(--couleur-bordure);
   margin-top: 0.1em;
   margin-bottom: 0.25em;
 }
@@ -97,8 +101,8 @@ h1 {
   text-align: center;
   position: relative;
   padding: var(--epaisseur-padding-cellule);
-  color: white;
-  border: 1px solid white;
+  color: var(--couleur-police-grille);
+  border: 1px solid var(--couleur-bordure-grille);
   z-index: 0;
 }
 
@@ -156,7 +160,7 @@ h1 {
 .input-lettre {
   font-size: 18px;
   display: inline-block;
-  border: 1px solid white;
+  border: 1px solid var(--couleur-police);
   border-radius: 5px;
   user-select: none;
   flex-grow: 1;
@@ -208,7 +212,7 @@ h1 {
 
 #panel-area a,
 #panel-area a:visited {
-  color: white;
+  color: var(--couleur-police);
 }
 
 #notification {
@@ -232,7 +236,7 @@ h1 {
   margin-left: auto;
   margin-right: auto;
   min-height: 400px;
-  border: 1px solid white;
+  border: 1px solid var(--couleur-bordure);
   border-radius: 0.25em;
   margin-top: 3em;
   display: flex;

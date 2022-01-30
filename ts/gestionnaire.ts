@@ -13,6 +13,7 @@ import PanelManager from "./panelManager";
 import ReglesPanel from "./reglesPanel";
 import ConfigurationPanel from "./configurationPanel";
 import AudioPanel from "./audioPanel";
+import ThemeManager from "./themeManager";
 
 export default class Gestionnaire {
   private readonly _dictionnaire: Dictionnaire;
@@ -24,6 +25,7 @@ export default class Gestionnaire {
   private readonly _propositions: Array<string>;
   private readonly _resultats: Array<Array<LettreResultat>>;
   private readonly _panelManager: PanelManager;
+  private readonly _themeManager: ThemeManager;
   private readonly _audioPanel: AudioPanel;
 
   private _motATrouver: string = "";
@@ -49,9 +51,10 @@ export default class Gestionnaire {
     this._resultats = new Array<Array<LettreResultat>>();
     this._audioPanel = new AudioPanel(this._config);
     this._panelManager = new PanelManager();
+    this._themeManager = new ThemeManager(this._config);
     this._reglesPanel = new ReglesPanel(this._panelManager);
     this._finDePartiePanel = new FinDePartiePanel(this._datePartieEnCours, this._panelManager);
-    this._configurationPanel = new ConfigurationPanel(this._panelManager, this._audioPanel);
+    this._configurationPanel = new ConfigurationPanel(this._panelManager, this._audioPanel, this._themeManager);
 
     this.choisirMot(this._datePartieEnCours).then((mot) => {
       this._motATrouver = mot;

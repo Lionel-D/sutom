@@ -5,18 +5,22 @@ import { VolumeSon } from "./entites/volumeSon";
 import AudioPanel from "./audioPanel";
 import { ClavierDisposition } from "./entites/clavierDisposition";
 import Input from "./input";
+import ThemeManager from "./themeManager";
+import { Theme } from "./entites/theme";
 
 export default class ConfigurationPanel {
   private readonly _panelManager: PanelManager;
   private readonly _audioPanel: AudioPanel;
+  private readonly _themeManager: ThemeManager;
 
   private readonly _configBouton: HTMLElement;
 
   private _input: Input | undefined;
 
-  public constructor(panelManager: PanelManager, audioPanel: AudioPanel) {
+  public constructor(panelManager: PanelManager, audioPanel: AudioPanel, themeManager: ThemeManager) {
     this._panelManager = panelManager;
     this._audioPanel = audioPanel;
+    this._themeManager = themeManager;
 
     this._configBouton = document.getElementById("configuration-config-bouton") as HTMLElement;
 
@@ -74,6 +78,30 @@ export default class ConfigurationPanel {
           Sauvegardeur.sauvegarderConfig({
             ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
             disposition,
+          });
+        }
+      )
+    );
+
+    contenu.appendChild(
+      this.genererConfigItem(
+        "Thème",
+        [
+          { value: Theme.Sombre.toString(), label: "Sombre" },
+          { value: Theme.Clair.toString(), label: "Clair" },
+          { value: Theme.SombreAccessible.toString(), label: "Sombre (Accessible)" },
+          { value: Theme.ClairAccessible.toString(), label: "Clair (Accessible)" },
+        ],
+        (config.theme ?? Configuration.Default.theme).toString(),
+        (event: Event) => {
+          event.stopPropagation();
+          let theme: Theme = parseInt((event.target as HTMLSelectElement).value);
+
+          this._themeManager.changerCouleur(theme);
+
+          Sauvegardeur.sauvegarderConfig({
+            ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
+            theme,
           });
         }
       )
