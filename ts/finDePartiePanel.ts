@@ -1,5 +1,5 @@
-import LettreResultat from "./lettreResultat";
-import { LettreStatut } from "./lettreStatut";
+import LettreResultat from "./entites/lettreResultat";
+import { LettreStatut } from "./entites/lettreStatut";
 import NotificationMessage from "./notificationMessage";
 import PanelManager from "./panelManager";
 

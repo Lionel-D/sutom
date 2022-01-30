@@ -1,7 +1,6 @@
 import AudioPanel from "./audioPanel";
-import Configuration from "./configuration";
-import LettreResultat from "./lettreResultat";
-import { LettreStatut } from "./lettreStatut";
+import LettreResultat from "./entites/lettreResultat";
+import { LettreStatut } from "./entites/lettreStatut";
 
 export default class Grille {
   private readonly _grille: HTMLElement;
@@ -14,9 +13,9 @@ export default class Grille {
   private _indice: Array<string | undefined>;
   private _motActuel: number;
 
-  public constructor(longueurMot: number, maxPropositions: number, indice: string, configuration: Configuration) {
+  public constructor(longueurMot: number, maxPropositions: number, indice: string, audioPanel: AudioPanel) {
     this._grille = document.getElementById("grille") as HTMLElement;
-    this._audioPanel = new AudioPanel(configuration);
+    this._audioPanel = audioPanel;
 
     this._longueurMot = longueurMot;
     this._maxPropositions = maxPropositions;

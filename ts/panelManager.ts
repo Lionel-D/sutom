@@ -49,6 +49,12 @@ export default class PanelManager {
     this._panelContenu.innerHTML = contenu;
   }
 
+  public setContenuHtmlElement(titre: string, contenu: HTMLElement): void {
+    this._panelTitre.innerText = titre;
+    this._panelContenu.innerHTML = "";
+    this._panelContenu.appendChild(contenu);
+  }
+
   public setClasses(classes: Array<string>): void {
     this._panelArea.className = "";
     classes.forEach((nomClasse) => this._panelArea.classList.add(nomClasse));

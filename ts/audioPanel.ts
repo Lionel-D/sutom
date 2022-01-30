@@ -1,4 +1,4 @@
-import Configuration from "./configuration";
+import Configuration from "./entites/configuration";
 import Sauvegardeur from "./sauvegardeur";
 
 export default class AudioPanel {
@@ -20,6 +20,7 @@ export default class AudioPanel {
     this._audioLettreMalPlace = document.getElementById("son-lettre-mal-place") as HTMLAudioElement;
     this._audioLettreNonTrouve = document.getElementById("son-lettre-non-trouve") as HTMLAudioElement;
 
+    this.setVolumeSonore(configuration.volumeSon ?? Configuration.Default.volumeSon);
     this.toggleSon(configuration.hasAudio, true);
 
     this._configAudioBouton.addEventListener(
@@ -47,6 +48,13 @@ export default class AudioPanel {
       this._audioLettreMalPlace.preload = "auto";
       this._audioLettreNonTrouve.preload = "auto";
     }
+  }
+
+  public setVolumeSonore(volume: number): void {
+    let volumeTag = volume / 100;
+    this._audioLettreBienPlace.volume = volumeTag;
+    this._audioLettreMalPlace.volume = volumeTag;
+    this._audioLettreNonTrouve.volume = volumeTag;
   }
 
   public jouerSonLettreBienPlace(callback?: () => void): void {

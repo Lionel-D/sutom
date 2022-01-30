@@ -1,4 +1,4 @@
-import Configuration from "./configuration";
+import Configuration from "./entites/configuration";
 import PanelManager from "./panelManager";
 import Sauvegardeur from "./sauvegardeur";
 

@@ -1,7 +1,7 @@
-import Configuration from "./configuration";
-import PartieEnCours from "./partieEnCours";
-import SauvegardePartie from "./sauvegardePartie";
-import SauvegardeStats from "./sauvegardeStats";
+import Configuration from "./entites/configuration";
+import PartieEnCours from "./entites/partieEnCours";
+import SauvegardePartie from "./entites/sauvegardePartie";
+import SauvegardeStats from "./entites/sauvegardeStats";
 
 export default class Sauvegardeur {
   private static readonly _cleStats = "stats";

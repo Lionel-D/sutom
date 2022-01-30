@@ -1,6 +1,6 @@
 import Gestionnaire from "./gestionnaire";
-import LettreResultat from "./lettreResultat";
-import { LettreStatut } from "./lettreStatut";
+import LettreResultat from "./entites/lettreResultat";
+import { LettreStatut } from "./entites/lettreStatut";
 
 export default class Input {
   private readonly _grille: HTMLElement;
