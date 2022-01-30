@@ -15,8 +15,8 @@ import ConfigurationPanel from "./configurationPanel";
 
 export default class Gestionnaire {
   private readonly _dictionnaire: Dictionnaire;
-  private readonly _grille: Grille;
-  private readonly _input: Input;
+  private _grille: Grille | null = null;
+  private _input: Input | null = null;
   private readonly _reglesPanel: ReglesPanel;
   private readonly _finDePartiePanel: FinDePartiePanel;
   private readonly _configurationPanel: ConfigurationPanel;
@@ -24,8 +24,8 @@ export default class Gestionnaire {
   private readonly _resultats: Array<Array<LettreResultat>>;
   private readonly _panelManager: PanelManager;
 
-  private _motATrouver: string;
-  private _compositionMotATrouver: { [lettre: string]: number };
+  private _motATrouver: string = "";
+  private _compositionMotATrouver: { [lettre: string]: number } = {};
   private _maxNbPropositions: number = 6;
   private _datePartieEnCours: Date;
   private _stats: SauvegardeStats = { partiesJouees: 0, partiesGagnees: 0 };
@@ -43,18 +43,20 @@ export default class Gestionnaire {
     }
 
     this._dictionnaire = new Dictionnaire();
-    this._motATrouver = this.choisirMot(this._datePartieEnCours);
-    this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._config);
-    this._input = new Input(this, this._motATrouver.length, this._motATrouver[0]);
     this._propositions = new Array<string>();
     this._resultats = new Array<Array<LettreResultat>>();
-    this._compositionMotATrouver = this.decompose(this._motATrouver);
     this._panelManager = new PanelManager();
     this._reglesPanel = new ReglesPanel(this._panelManager);
     this._finDePartiePanel = new FinDePartiePanel(this._datePartieEnCours, this._panelManager);
     this._configurationPanel = new ConfigurationPanel(this._panelManager);
 
-    this.chargerPropositions(partieEnCours.propositions);
+    this.choisirMot(this._datePartieEnCours).then((mot) => {
+      this._motATrouver = mot;
+      this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._config);
+      this._input = new Input(this, this._motATrouver.length, this._motATrouver[0]);
+      this._compositionMotATrouver = this.decompose(this._motATrouver);
+      this.chargerPropositions(partieEnCours.propositions);
+    });
 
     this.afficherReglesSiNecessaire();
   }
@@ -87,8 +89,8 @@ export default class Gestionnaire {
     Sauvegardeur.sauvegarderPartieEnCours(this._propositions, this._datePartieEnCours);
   }
 
-  private choisirMot(datePartie: Date): string {
-    return this._dictionnaire.nettoyerMot(this._dictionnaire.getMot(datePartie));
+  private async choisirMot(datePartie: Date): Promise<string> {
+    return this._dictionnaire.nettoyerMot(await this._dictionnaire.getMot(datePartie));
   }
 
   private decompose(mot: string): { [lettre: string]: number } {
@@ -127,19 +129,22 @@ export default class Gestionnaire {
       this.enregistrerPartieDansStats();
     }
 
-    this._grille.validerMot(mot, resultats, isBonneReponse, skipAnimation, () => {
-      this._input.updateClavier(resultats);
-      if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
-        this._input.bloquer();
-        this._finDePartiePanel.afficher();
-      }
-    });
+    if (this._grille)
+      this._grille.validerMot(mot, resultats, isBonneReponse, skipAnimation, () => {
+        if (this._input) {
+          this._input.updateClavier(resultats);
+          if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
+            this._input.bloquer();
+            this._finDePartiePanel.afficher();
+          }
+        }
+      });
 
     this.sauvegarderPartieEnCours();
   }
 
   public actualiserAffichage(mot: string): void {
-    this._grille.actualiserAffichage(this._dictionnaire.nettoyerMot(mot));
+    if (this._grille) this._grille.actualiserAffichage(this._dictionnaire.nettoyerMot(mot));
   }
 
   private analyserMot(mot: string): Array<LettreResultat> {

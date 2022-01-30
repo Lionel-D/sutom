@@ -1,15 +1,14 @@
 import ListeMotsProposables from "./mots/listeMotsProposables";
-import ListeMotsATrouver from "./mots/listeMotsATrouver";
 export default class Dictionnaire {
   public constructor() {}
 
-  public getMot(datePartie: Date): string {
+  public async getMot(datePartie: Date): Promise<string> {
     let aujourdhui = datePartie.getTime();
     let origine = new Date(2022, 0, 8).getTime();
 
-    let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000));
+    let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000)) + 1;
 
-    return ListeMotsATrouver.Liste[numeroGrille % ListeMotsATrouver.Liste.length];
+    return await fetch("mots/" + numeroGrille + ".txt").then((resultat) => resultat.text());
   }
 
   public estMotValide(mot: string): boolean {

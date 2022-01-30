@@ -31,6 +31,26 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
     .join("\n");
   contenu += "\n  ]";
   contenu += "\n}";
+
+  motsFiges
+    .map((mot) =>
+      mot
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .toUpperCase()
+        .trim()
+        .replace(/^\s+|\s+$/g, "")
+    )
+    .forEach((mot, numeroMot) =>
+      fs.access("mots/" + (numeroMot + 1) + ".txt", fs.constants.F_OK, (err) => {
+        if (err) {
+          // Dans ce cas, le fichier n'existe pas
+          fs.writeFile("mots/" + (numeroMot + 1) + ".txt", mot, (err) => {
+            if (err) console.error(err);
+          });
+        }
+      })
+    );
   fs.writeFile("ts/mots/listeMotsATrouver.ts", contenu, function (err) {
     if (err) {
       console.error(err);

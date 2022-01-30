@@ -1,6 +1,7 @@
 config/
 data/
 js/
+mots/
 node_modules/
 ts/mots/listeMotsATrouver.*.ts
 cron.prod.sh
