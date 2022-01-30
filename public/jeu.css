@@ -168,11 +168,12 @@ h1 {
   font-family: monospace;
 }
 
-.input-lettre.input-lettre-vide {
+.input-lettre.input-lettre-vide,
+.input-lettre.input-lettre-vide-double {
   border: 0;
-  flex-grow: 2;
 }
 
+.input-lettre.input-lettre-vide-double,
 .input-lettre.input-lettre-entree {
   flex-grow: 2;
 }

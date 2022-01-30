@@ -3,12 +3,16 @@ import PanelManager from "./panelManager";
 import Sauvegardeur from "./sauvegardeur";
 import { VolumeSon } from "./entites/volumeSon";
 import AudioPanel from "./audioPanel";
+import { ClavierDisposition } from "./entites/clavierDisposition";
+import Input from "./input";
 
 export default class ConfigurationPanel {
   private readonly _panelManager: PanelManager;
   private readonly _audioPanel: AudioPanel;
 
   private readonly _configBouton: HTMLElement;
+
+  private _input: Input | undefined;
 
   public constructor(panelManager: PanelManager, audioPanel: AudioPanel) {
     this._panelManager = panelManager;
@@ -51,6 +55,30 @@ export default class ConfigurationPanel {
       )
     );
 
+    contenu.appendChild(
+      this.genererConfigItem(
+        "Disposition du clavier",
+        [
+          { value: ClavierDisposition.Azerty.toString(), label: "AZERTY" },
+          { value: ClavierDisposition.Bépo.toString(), label: "BÉPO" },
+          { value: ClavierDisposition.Qwerty.toString(), label: "QWERTY" },
+          { value: ClavierDisposition.Qwertz.toString(), label: "QWERTZ" },
+        ],
+        (config.disposition ?? Configuration.Default.disposition).toString(),
+        (event: Event) => {
+          event.stopPropagation();
+          let disposition: ClavierDisposition = parseInt((event.target as HTMLSelectElement).value);
+
+          if (this._input) this._input.dessinerClavier(disposition);
+
+          Sauvegardeur.sauvegarderConfig({
+            ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
+            disposition,
+          });
+        }
+      )
+    );
+
     this._panelManager.setContenuHtmlElement(titre, contenu);
     this._panelManager.setClasses(["config-panel"]);
     this._panelManager.afficherPanel();
@@ -81,5 +109,9 @@ export default class ConfigurationPanel {
     div.appendChild(select);
 
     return div;
+  }
+
+  public setInput(input: Input): void {
+    this._input = input;
   }
 }
