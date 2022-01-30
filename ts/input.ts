@@ -178,7 +178,6 @@ export default class Input {
   }
 
   public updateClavier(resultats: Array<LettreResultat>): void {
-    if (this._estBloque) return;
     this._resultats = resultats; // On sauvegarde au cas où on doit redessiner tout le clavier
     let statutLettres: { [lettre: string]: LettreStatut } = {};
     // console.log(statutLettres);
