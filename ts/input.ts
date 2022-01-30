@@ -25,6 +25,8 @@ export default class Input {
     this._estBloque = false;
     this._resultats = new Array<LettreResultat>();
 
+    this.ajouterEvenementClavierPhysique();
+
     this.dessinerClavier(configuration.disposition ?? Configuration.Default.disposition);
   }
 
@@ -64,7 +66,7 @@ export default class Input {
 
       this._inputArea.appendChild(ligneDiv);
     }
-    this.ajouterEvenements();
+    this.ajouterEvenementClavierVirtuel();
     this.updateClavier(this._resultats);
   }
 
@@ -97,7 +99,27 @@ export default class Input {
     }
   }
 
-  private ajouterEvenements(): void {
+  private ajouterEvenementClavierVirtuel(): void {
+    this._inputArea.querySelectorAll(".input-lettre").forEach((lettreDiv) =>
+      lettreDiv.addEventListener("click", (event) => {
+        event.stopPropagation();
+        let div = event.currentTarget;
+        if (!div) return;
+        let lettre = (div as HTMLElement).dataset["lettre"];
+        if (lettre === undefined) {
+          return;
+        } else if (lettre === "_effacer") {
+          this.effacerLettre();
+        } else if (lettre === "_entree") {
+          this.validerMot();
+        } else {
+          this.saisirLettre(lettre);
+        }
+      })
+    );
+  }
+
+  private ajouterEvenementClavierPhysique(): void {
     document.addEventListener(
       "keypress",
       ((event: KeyboardEvent) => {
@@ -123,24 +145,6 @@ export default class Input {
           this.effacerLettre();
         }
       }).bind(this)
-    );
-
-    this._inputArea.querySelectorAll(".input-lettre").forEach((lettreDiv) =>
-      lettreDiv.addEventListener("click", (event) => {
-        event.stopPropagation();
-        let div = event.currentTarget;
-        if (!div) return;
-        let lettre = (div as HTMLElement).dataset["lettre"];
-        if (lettre === undefined) {
-          return;
-        } else if (lettre === "_effacer") {
-          this.effacerLettre();
-        } else if (lettre === "_entree") {
-          this.validerMot();
-        } else {
-          this.saisirLettre(lettre);
-        }
-      })
     );
   }
 
