@@ -21,18 +21,31 @@ export default class ReglesPanel {
   public afficher(): void {
     let titre = "Règles";
     let contenu =
-      '<p> \
-    Vous avez six essais pour deviner le mot du jour.<br /> \
-    Vous ne pouvez proposer que des mots commençant par la même lettre que le mot recherché, et qui se trouvent dans notre dictionnaire.<br /> \
-    Les lettres entourées d\'un carré rouge sont bien placées,<br /> \
-    les lettres entourées d\'un cercle jaune sont mal placées (mais présentes dans le mot).<br /> \
-    Les lettres qui restent sur fond bleu ne sont pas dans le mot.<br /> \
-    Il y a un mot par jour, entre 6 et 9 lettres, et il est identique pour tout le monde. Évitez donc les spoils et privilégiez le bouton de partage.<br /> \
-    En cas de soucis, vous pouvez contacter <a href="https://twitter.com/Jonamaths">@Jonamaths</a> sur twitter. − \
-    <a target="_blank" href="https://framagit.org/JonathanMM/sutom">Page du projet</a><br /> \
-    Basé sur l\'excellent <a target="_blank" href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> et le regretté Motus.<br /> \
-    Merci à Emmanuel pour l\'aide sur les mots à trouver, et à GaranceAmarante pour l\'aide sur le dictionnaire. \
-  </p>';
+      "<p>" +
+      "Vous avez six essais pour deviner le mot du jour, entre 6 et 9 lettres, commun à tous.<br />" +
+      "Vous ne pouvez proposer que des mots commençant par la même lettre que le mot recherché, et qui se trouvent dans notre dictionnaire.<br />" +
+      "Le mot change chaque jour. Évitez donc les spoils et privilégiez le bouton de partage.<br />" +
+      "</p>" +
+      '<div class="grille">' +
+      "<table>" +
+      "<tr>" +
+      '<td class="resultat non-trouve">R</td>' +
+      '<td class="resultat non-trouve">A</td>' +
+      '<td class="resultat bien-place">T</td>' +
+      '<td class="resultat non-trouve">I</td>' +
+      '<td class="resultat mal-place">O</td>' +
+      "</tr>" +
+      "</table>" +
+      "Les lettres entourées d'un carré rouge sont bien placées,<br />" +
+      "les lettres entourées d'un cercle jaune sont mal placées (mais présentes dans le mot).<br />" +
+      "Les lettres qui restent sur fond bleu ne sont pas dans le mot.<br />" +
+      "</div>" +
+      "<p>" +
+      'En cas de soucis, vous pouvez contacter <a href="https://twitter.com/Jonamaths">@Jonamaths</a> sur twitter. −' +
+      '<a target="_blank" href="https://framagit.org/JonathanMM/sutom">Page du projet</a><br />' +
+      'Basé sur l\'excellent <a target="_blank" href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> et le regretté Motus.<br />' +
+      "Merci à Emmanuel pour l'aide sur les mots à trouver, et à GaranceAmarante pour l'aide sur le dictionnaire." +
+      "</p>";
 
     this._panelManager.setContenu(titre, contenu);
     this._panelManager.setClasses(["regles-panel"]);
