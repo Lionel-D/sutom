@@ -210,7 +210,8 @@ h1 {
   color: var(--couleur-police);
 }
 
-#notification {
+#notification,
+#panel-fenetre-notification {
   opacity: 0;
   transition: opacity linear 1s;
 }

@@ -58,16 +58,16 @@ export default class FinDePartiePanel {
     resumeBouton.addEventListener("click", (event) => {
       event.stopPropagation();
       if (!navigator.clipboard) {
-        NotificationMessage.ajouterNotification("Votre navigateur n'est pas compatible");
+        NotificationMessage.ajouterNotificationPanel("Votre navigateur n'est pas compatible");
       }
 
       navigator.clipboard
         .writeText(this._resumeTexte + "\n\nhttps://sutom.nocle.fr")
         .then(() => {
-          NotificationMessage.ajouterNotification("Résumé copié dans le presse papier");
+          NotificationMessage.ajouterNotificationPanel("Résumé copié dans le presse papier");
         })
         .catch((raison) => {
-          NotificationMessage.ajouterNotification("Votre navigateur n'est pas compatible");
+          NotificationMessage.ajouterNotificationPanel("Votre navigateur n'est pas compatible");
         });
     });
   }
@@ -103,7 +103,7 @@ export default class FinDePartiePanel {
     let stats = Sauvegardeur.chargerSauvegardeStats();
     if (stats) {
       contenu +=
-        '<div class="stats-area"><div class="stats-ligne"><div class="stats-cellule">Parties :</div>' +
+        '<p>Statistiques</p><div class="stats-area"><div class="stats-ligne"><div class="stats-cellule">Parties :</div>' +
         `<div class="stats-cellule">${stats.partiesGagnees}/${stats.partiesJouees}</div>` +
         "</div>" +
         `<div class="stats-ligne"><div class="stats-cellule">1/6 :</div><div class="stats-cellule">${stats.repartition[1]}</div></div>` +
