@@ -29,11 +29,11 @@ export default class ReglesPanel {
       '<div class="grille">' +
       "<table>" +
       "<tr>" +
-      '<td class="resultat non-trouve">R</td>' +
+      '<td class="resultat bien-place">S</td>' +
       '<td class="resultat non-trouve">A</td>' +
-      '<td class="resultat bien-place">T</td>' +
-      '<td class="resultat non-trouve">I</td>' +
-      '<td class="resultat mal-place">O</td>' +
+      '<td class="resultat non-trouve">L</td>' +
+      '<td class="resultat mal-place">U</td>' +
+      '<td class="resultat mal-place">T</td>' +
       "</tr>" +
       "</table>" +
       "Les lettres entourées d'un carré rouge sont bien placées,<br />" +
