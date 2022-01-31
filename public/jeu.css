@@ -40,22 +40,6 @@ body {
   height: 100%;
 }
 
-@media (max-width: 1024px) {
-  #contenu {
-    margin-left: 2px;
-    margin-right: 2px;
-  }
-}
-
-@media (max-height: 640px) {
-  :root {
-    --taille-cellule: 36px;
-  }
-  body {
-    font-size: 24px;
-  }
-}
-
 header {
   display: grid;
   grid-template-columns: 2fr 6fr 2fr;
@@ -210,12 +194,6 @@ h1 {
   font-size: 32px;
 }
 
-@media (max-height: 640px) {
-  .regles-panel table {
-    font-size: 24px;
-  }
-}
-
 .regles-panel #panel-fenetre {
   font-size: 14px;
   text-align: left;
@@ -286,12 +264,6 @@ h1 {
   height: 32px;
 }
 
-@media (max-width: 1024px) {
-  #panel-fenetre {
-    width: 90%;
-  }
-}
-
 .config-panel #panel-fenetre-contenu {
   display: flex;
   flex-direction: column;
@@ -328,4 +300,39 @@ h1 {
 .fin-de-partie-panel-phrase {
   text-align: left;
   padding-left: 0.5em;
+}
+
+@media (max-width: 1024px) {
+  #contenu {
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+
+  #panel-fenetre {
+    width: 90%;
+    overflow-y: auto;
+    max-height: calc(100vh - 4em - 2px);
+  }
+}
+
+@media (max-width: 500px) {
+  :root {
+    --taille-cellule: 42px;
+  }
+
+  body,
+  .regles-panel table {
+    font-size: 28px;
+  }
+}
+
+@media (max-height: 640px), (max-width: 400px) {
+  :root {
+    --taille-cellule: 36px;
+  }
+
+  body,
+  .regles-panel table {
+    font-size: 24px;
+  }
 }

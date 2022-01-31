@@ -103,22 +103,22 @@ export default class FinDePartiePanel {
     let stats = Sauvegardeur.chargerSauvegardeStats();
     if (stats) {
       contenu +=
-        '<div class="stats-area"><div class="stats-ligne"><div class="stats-cellule">Nombre de parties :</div>' +
+        '<div class="stats-area"><div class="stats-ligne"><div class="stats-cellule">Parties :</div>' +
         `<div class="stats-cellule">${stats.partiesGagnees}/${stats.partiesJouees}</div>` +
         "</div>" +
-        `<div class="stats-ligne"><div class="stats-cellule">1/6 :</div><div class="stats-cellule">${stats.repartition[1]}</div></div>` +
-        `<div class="stats-ligne"><div class="stats-cellule">2/6 :</div><div class="stats-cellule">${stats.repartition[2]}</div></div>` +
-        `<div class="stats-ligne"><div class="stats-cellule">3/6 :</div><div class="stats-cellule">${stats.repartition[3]}</div></div>` +
-        `<div class="stats-ligne"><div class="stats-cellule">4/6 :</div><div class="stats-cellule">${stats.repartition[4]}</div></div>` +
-        `<div class="stats-ligne"><div class="stats-cellule">5/6 :</div><div class="stats-cellule">${stats.repartition[5]}</div></div>` +
-        `<div class="stats-ligne"><div class="stats-cellule">6/6 :</div><div class="stats-cellule">${stats.repartition[6]}</div></div>` +
-        `<div class="stats-ligne"><div class="stats-cellule">-/6 :</div><div class="stats-cellule">${stats.repartition["-"]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">1/6 :</div><div class="stats-cellule">${stats.repartition[1]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">2/6 :</div><div class="stats-cellule">${stats.repartition[2]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">3/6 :</div><div class="stats-cellule">${stats.repartition[3]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">4/6 :</div><div class="stats-cellule">${stats.repartition[4]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">5/6 :</div><div class="stats-cellule">${stats.repartition[5]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">6/6 :</div><div class="stats-cellule">${stats.repartition[6]}</div></div>` +
+        `<div class="stats-ligne"><div class="stats-cellule">-/6 :</div><div class="stats-cellule">${stats.repartition["-"]}</div></div>` +
         `<div class="stats-ligne"><div class="stats-cellule">Moyenne :</div><div class="stats-cellule">${this.getMoyenne(stats.repartition)}</div></div>` +
         '<div class="stats-ligne"><div class="stats-cellule">Lettres :</div>' +
         '<div class="stats-cellule">' +
-        `${stats.lettresRepartitions.bienPlace} 🟥 ` +
-        `${stats.lettresRepartitions.malPlace} 🟡 ` +
-        `${stats.lettresRepartitions.nonTrouve} 🟦` +
+        `${stats.lettresRepartitions.bienPlace} 🟥 ` +
+        `${stats.lettresRepartitions.malPlace} 🟡 ` +
+        `${stats.lettresRepartitions.nonTrouve} 🟦` +
         "</div>" +
         "</div>" +
         "</div>";
