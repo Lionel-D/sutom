@@ -13,6 +13,7 @@
   --couleur-bordure-grille: #ffffff;
   --couleur-police: #ffffff;
   --couleur-police-grille: #ffffff;
+  --taille-icone: 32px;
 }
 
 @font-face {
@@ -64,8 +65,8 @@ h1 {
 #configuration-config-icone,
 #configuration-stats-icone,
 #configuration-audio-icone {
-  height: 32px;
-  width: 32px;
+  height: var(--taille-icone);
+  width: var(--taille-icone);
 }
 
 #grille {
@@ -318,6 +319,7 @@ h1 {
 @media (max-width: 500px) {
   :root {
     --taille-cellule: 42px;
+    --taille-icone: 28px;
   }
 
   body,
