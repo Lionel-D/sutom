@@ -3,7 +3,8 @@ import http from "http";
 import fs from "fs";
 
 const app = express();
-const port = 4000;
+const port = parseInt(String(process.env.SUTOM_PORT), 10) || 4000;
+
 (async () => {
   app.use("/", express.static("public/"));
   app.use("/js", express.static("js/"));
