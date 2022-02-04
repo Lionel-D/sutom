@@ -19,7 +19,7 @@ npm i
 Puis, on lance le serveur :
 
 ```sh
-npm start
+npm run start:dev
 ```
 
 ### Avec Docker
@@ -27,14 +27,40 @@ npm start
 Un Dockerfile est disponible pour pouvoir démarrer le site en local sans `npm`.
 
 ```sh
-docker build -t sutom .
+docker build --build-arg MODE=development -t sutom .
 
-docker run -it --rm -p 4000:4000 sutom
+docker run -it --rm -p 4000:4000 sutom npm run start:dev
 ```
 
 ### Accès au site
 
 Une fois démarré, le site sera dispo sur http://localhost:4000 et le typescript va se recompiler tout seul à chaque modification de fichier.
+
+## Déployer en production
+
+### Avec npm
+
+Pour déployer en production, on installe les dépendances :
+
+```sh
+npm install --production
+```
+
+Puis on lance le serveur :
+
+```sh
+npm start
+```
+
+### Avec Docker
+
+On lance Docker en production en créant l'image et en la lançant sans les options particulières pour le mode "development" :
+
+```sh
+docker build -t sutom .
+
+docker run -it --rm -p 4000:4000 sutom
+```
 
 ## Autres infos et remerciements
 
