@@ -27,7 +27,7 @@ let origine = new Date(2022, 0, 8).getTime();
 
 let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000));
 
-const maxFige = numeroGrille + 1; // inclus
+const maxFige = numeroGrille; // inclus
 console.log(maxFige);
 fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);

@@ -14,7 +14,7 @@ const maxFige = numeroGrille + 1; // inclus
 fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
   var dictionnaire = contenu.split("\n");
-  let motsFiges = dictionnaire.slice(0, maxFige + 2);
+  let motsFiges = dictionnaire.slice(0, maxFige + 1);
 
   contenu = "export default class ListeMotsATrouver {\n";
   contenu += " public static readonly Liste: Array<string> = [\n";
