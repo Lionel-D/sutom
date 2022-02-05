@@ -74,7 +74,7 @@ export default class Input {
     switch (clavier) {
       case ClavierDisposition.Bépo:
         return [
-          ["B", "E", "P", "O", "E", "V", "D", "L", "Z", "W"],
+          ["B", "E", "P", "O", "V", "D", "L", "J", "Z", "W"],
           ["A", "U", "I", "E", "C", "T", "S", "R", "N", "M"],
           ["Y", "X", "K", "Q", "G", "H", "F", "_effacer", "_entree"],
         ];
