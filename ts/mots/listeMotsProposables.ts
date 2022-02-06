@@ -133526,6 +133526,9 @@ export default class ListeMotsProposables {
     "SOUDAI",
     "SOUDAIENT",
     "SOUDAIN",
+    "SOUDAINE",
+    "SOUDAINES",
+    "SOUDAINS",
     "SOUDAIS",
     "SOUDAIT",
     "SOUDAMES",
@@ -149440,5 +149443,5 @@ export default class ListeMotsProposables {
     "VUMETRES",
     "VUVUZELA",
     "VUVUZELAS",
-      ];
+  ];
 }
