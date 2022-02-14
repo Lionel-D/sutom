@@ -3,6 +3,7 @@
  * Petit script qui nettoie le fichier des mots à trouver pour le mettre dans le format attendu par le système
  */
 var fs = require("fs");
+const { exit } = require("process");
 
 var listeMotsProposable = require("../js/mots/listeMotsProposables");
 function shuffle(array) {
@@ -28,21 +29,57 @@ let origine = new Date(2022, 0, 8).getTime();
 let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000));
 
 const maxFige = numeroGrille; // inclus
-console.log(maxFige);
+
+// console.log(maxFige);
 fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
   var dictionnaire = contenu.split("\n");
   let motsFiges = dictionnaire.slice(0, maxFige + 1);
-  let motsMelanges;
   let nbEssais = 0;
+  const maxEssais = 20;
+  let traitementOk = false;
+  let motsMelanges = dictionnaire.slice(maxFige + 1);
+  let motsMelangesFige = [...motsFiges];
+
   do {
-    motsMelanges = shuffle(dictionnaire.slice(maxFige + 1));
+    motsMelanges = shuffle(motsMelanges);
+    if (motsMelanges.length === 0) break;
+    // On vérifie que le mélange corresponde à nos critères
+    let premieresLettres = [];
+    for (let i = Math.max(0, motsMelangesFige.length - 5); i < motsMelangesFige.length; i++) {
+      premieresLettres.push(motsMelangesFige[i][0].toUpperCase());
+    }
+    // Ainsi que la dernière longueur
+    let derniereLongueur = motsMelangesFige.length > 0 ? motsMelangesFige[motsMelangesFige.length - 1].length : 0;
+    let origine = 0;
     nbEssais++;
-  } while (motsFiges[motsFiges.length - 1][0].toUpperCase() === motsMelanges[0][0].toUpperCase() && nbEssais <= 20);
+    let motsMelangesRestants = [];
+    for (let i = 0; i < motsMelanges.length; i++) {
+      let mot = motsMelanges[i];
+      let premiereLettre = motsMelanges[i][0].toUpperCase();
+      let longueur = motsMelanges[i].length;
+      if (premieresLettres.includes(premiereLettre) || longueur === derniereLongueur) {
+        motsMelangesRestants.push(mot);
+      } else {
+        if (premieresLettres.length === 5) premieresLettres.shift();
+        premieresLettres.push(premiereLettre);
+        derniereLongueur = longueur;
+        motsMelangesFige.push(motsMelanges[i]);
+        origine++;
+      }
+    }
+    traitementOk = origine === motsMelanges.length;
+    motsMelanges = [...motsMelangesRestants];
+    if (nbEssais > maxEssais && motsMelangesRestants.length !== 0) {
+      // Tous les mots n'ont pas pu être mélangés, donc on va remettre la fin
+      motsMelangesFige = [...motsMelangesFige, ...motsMelangesRestants];
+    }
+  } while (!traitementOk && nbEssais <= maxEssais);
 
   var contenu = "";
   contenu += motsFiges.map((mot) => mot.trim().replace(/^\s+|\s+$/g, "")).join("\n") + "\n";
-  contenu += motsMelanges
+  contenu += motsMelangesFige
+    .slice(maxFige + 1)
     .map((mot) => mot.trim().replace(/^\s+|\s+$/g, ""))
     .filter(
       (mot) =>
