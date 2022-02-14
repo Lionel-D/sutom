@@ -1,10 +1,11 @@
+import InstanceConfiguration from "./instanceConfiguration";
 import ListeMotsProposables from "./mots/listeMotsProposables";
 export default class Dictionnaire {
   public constructor() {}
 
   public async getMot(datePartie: Date): Promise<string> {
     let aujourdhui = datePartie.getTime();
-    let origine = new Date(2022, 0, 8).getTime();
+    let origine = InstanceConfiguration.dateOrigine.getTime();
 
     let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000)) + 1;
 

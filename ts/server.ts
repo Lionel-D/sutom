@@ -1,6 +1,7 @@
 import express from "express";
 import http from "http";
 import fs from "fs";
+import InstanceConfiguration from "./instanceConfiguration";
 
 const app = express();
 const port = parseInt(String(process.env.SUTOM_PORT), 10) || 4000;
@@ -14,7 +15,7 @@ const port = parseInt(String(process.env.SUTOM_PORT), 10) || 4000;
 
   // Vu que le serveur node est prévu pour du test, on va créer un mot du jour s'il n'existe pas
   let aujourdhui = new Date().getTime();
-  let origine = new Date(2022, 0, 8).getTime();
+  let origine = InstanceConfiguration.dateOrigine.getTime();
 
   let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000)) + 1;
 

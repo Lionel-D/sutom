@@ -1,5 +1,6 @@
 import LettreResultat from "./entites/lettreResultat";
 import { LettreStatut } from "./entites/lettreStatut";
+import InstanceConfiguration from "./instanceConfiguration";
 import NotificationMessage from "./notificationMessage";
 import PanelManager from "./panelManager";
 import Sauvegardeur from "./sauvegardeur";
@@ -43,7 +44,7 @@ export default class FinDePartiePanel {
         }, "")
     );
     let dateGrille = this._datePartie.getTime();
-    let origine = new Date(2022, 0, 8).getTime();
+    let origine = InstanceConfiguration.dateOrigine.getTime();
     this._motATrouver = motATrouver;
     this._estVictoire = estBonneReponse;
     this._partieEstFinie = true;

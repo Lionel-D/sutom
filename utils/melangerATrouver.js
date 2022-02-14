@@ -5,6 +5,7 @@
 var fs = require("fs");
 
 var listeMotsProposable = require("../js/mots/listeMotsProposables");
+var instanceConfiguration = require("../js/instanceConfiguration");
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -23,7 +24,7 @@ function shuffle(array) {
 }
 
 let aujourdhui = new Date().getTime();
-let origine = new Date(2022, 0, 8).getTime();
+let origine = instanceConfiguration.default.dateOrigine.getTime();
 
 let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000));
 

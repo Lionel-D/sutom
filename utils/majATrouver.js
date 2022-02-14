@@ -3,9 +3,10 @@
  * Petit script qui nettoie le fichier des mots à trouver pour le mettre dans le format attendu par le système
  */
 var fs = require("fs");
+var instanceConfiguration = require("../js/instanceConfiguration");
 
 let aujourdhui = new Date().getTime();
-let origine = new Date(2022, 0, 8).getTime();
+let origine = instanceConfiguration.default.dateOrigine.getTime();
 
 let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000));
 
