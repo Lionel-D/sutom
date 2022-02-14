@@ -3,7 +3,6 @@
  * Petit script qui nettoie le fichier des mots à trouver pour le mettre dans le format attendu par le système
  */
 var fs = require("fs");
-const { exit } = require("process");
 
 var listeMotsProposable = require("../js/mots/listeMotsProposables");
 function shuffle(array) {
@@ -28,7 +27,7 @@ let origine = new Date(2022, 0, 8).getTime();
 
 let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000));
 
-const maxFige = numeroGrille; // inclus
+const maxFige = numeroGrille + 1; // inclus
 
 // console.log(maxFige);
 fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
