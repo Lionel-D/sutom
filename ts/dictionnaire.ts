@@ -3,7 +3,7 @@ import ListeMotsProposables from "./mots/listeMotsProposables";
 export default class Dictionnaire {
   public constructor() {}
 
-  public async getMot(datePartie: Date): Promise<string> {
+  public static async getMot(datePartie: Date): Promise<string> {
     let aujourdhui = datePartie.getTime();
     let origine = InstanceConfiguration.dateOrigine.getTime();
 
@@ -12,12 +12,12 @@ export default class Dictionnaire {
     return await fetch("mots/" + numeroGrille + ".txt").then((resultat) => resultat.text());
   }
 
-  public estMotValide(mot: string): boolean {
+  public static estMotValide(mot: string): boolean {
     mot = this.nettoyerMot(mot);
     return mot.length >= 6 && mot.length <= 9 && ListeMotsProposables.Dictionnaire.includes(mot);
   }
 
-  public nettoyerMot(mot: string): string {
+  public static nettoyerMot(mot: string): string {
     return mot
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")

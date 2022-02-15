@@ -16,7 +16,6 @@ import AudioPanel from "./audioPanel";
 import ThemeManager from "./themeManager";
 
 export default class Gestionnaire {
-  private readonly _dictionnaire: Dictionnaire;
   private _grille: Grille | null = null;
   private _input: Input | null = null;
   private readonly _reglesPanel: ReglesPanel;
@@ -46,7 +45,6 @@ export default class Gestionnaire {
       this._datePartieEnCours = new Date();
     }
 
-    this._dictionnaire = new Dictionnaire();
     this._propositions = new Array<string>();
     this._resultats = new Array<Array<LettreResultat>>();
     this._audioPanel = new AudioPanel(this._config);
@@ -58,8 +56,8 @@ export default class Gestionnaire {
 
     this.choisirMot(this._datePartieEnCours).then((mot) => {
       this._motATrouver = mot;
-      this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._audioPanel);
       this._input = new Input(this, this._config, this._motATrouver.length, this._motATrouver[0]);
+      this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._audioPanel);
       this._configurationPanel.setInput(this._input);
       this._compositionMotATrouver = this.decompose(this._motATrouver);
       this.chargerPropositions(partieEnCours.propositions);
@@ -118,7 +116,7 @@ export default class Gestionnaire {
   }
 
   private async choisirMot(datePartie: Date): Promise<string> {
-    return this._dictionnaire.nettoyerMot(await this._dictionnaire.getMot(datePartie));
+    return Dictionnaire.nettoyerMot(await Dictionnaire.getMot(datePartie));
   }
 
   private decompose(mot: string): { [lettre: string]: number } {
@@ -132,8 +130,8 @@ export default class Gestionnaire {
   }
 
   public verifierMot(mot: string, chargementPartie: boolean = false): void {
-    mot = this._dictionnaire.nettoyerMot(mot);
-    //console.debug(mot + " => " + (this._dictionnaire.estMotValide(mot) ? "Oui" : "non"));
+    mot = Dictionnaire.nettoyerMot(mot);
+    //console.debug(mot + " => " + (Dictionnaire.estMotValide(mot) ? "Oui" : "non"));
     if (mot.length !== this._motATrouver.length) {
       NotificationMessage.ajouterNotification("Le mot proposé est trop court");
       return;
@@ -142,7 +140,7 @@ export default class Gestionnaire {
       NotificationMessage.ajouterNotification("Le mot proposé doit commencer par la même lettre que le mot recherché");
       return;
     }
-    if (!this._dictionnaire.estMotValide(mot)) {
+    if (!Dictionnaire.estMotValide(mot)) {
       NotificationMessage.ajouterNotification("Ce mot n'est pas dans notre dictionnaire");
       return;
     }
@@ -157,22 +155,26 @@ export default class Gestionnaire {
       if (!chargementPartie) this.enregistrerPartieDansStats();
     }
 
-    if (this._grille)
+    if (this._grille) {
+      if (this._input) this._input.bloquer();
       this._grille.validerMot(mot, resultats, isBonneReponse, chargementPartie, () => {
         if (this._input) {
           this._input.updateClavier(resultats);
           if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
             this._input.bloquer();
             this._finDePartiePanel.afficher();
+          } else {
+            this._input.debloquer();
           }
         }
       });
+    }
 
     this.sauvegarderPartieEnCours();
   }
 
   public actualiserAffichage(mot: string): void {
-    if (this._grille) this._grille.actualiserAffichage(this._dictionnaire.nettoyerMot(mot));
+    if (this._grille) this._grille.actualiserAffichage(Dictionnaire.nettoyerMot(mot));
   }
 
   private analyserMot(mot: string): Array<LettreResultat> {

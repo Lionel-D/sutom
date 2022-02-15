@@ -3,6 +3,7 @@ import LettreResultat from "./entites/lettreResultat";
 import { LettreStatut } from "./entites/lettreStatut";
 import { ClavierDisposition } from "./entites/clavierDisposition";
 import Configuration from "./entites/configuration";
+import Dictionnaire from "./dictionnaire";
 
 export default class Input {
   private readonly _grille: HTMLElement;
@@ -128,7 +129,7 @@ export default class Input {
 
         if (touche === "Enter") {
           this.validerMot();
-        } else if (touche !== "Backspace") {
+        } else if (/^[A-Z]+$/.test(Dictionnaire.nettoyerMot(touche))) {
           this.saisirLettre(touche);
         }
       }).bind(this)
@@ -175,6 +176,10 @@ export default class Input {
 
   public bloquer(): void {
     this._estBloque = true;
+  }
+
+  public debloquer(): void {
+    this._estBloque = false;
   }
 
   public updateClavier(resultats: Array<LettreResultat>): void {
