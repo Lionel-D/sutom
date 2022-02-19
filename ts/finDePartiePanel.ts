@@ -1,3 +1,4 @@
+import Configuration from "./entites/configuration";
 import LettreResultat from "./entites/lettreResultat";
 import { LettreStatut } from "./entites/lettreStatut";
 import InstanceConfiguration from "./instanceConfiguration";
@@ -29,7 +30,7 @@ export default class FinDePartiePanel {
     );
   }
 
-  public genererResume(estBonneReponse: boolean, motATrouver: string, resultats: Array<Array<LettreResultat>>): void {
+  public genererResume(estBonneReponse: boolean, motATrouver: string, resultats: Array<Array<LettreResultat>>, dureeMs: number): void {
     let resultatsEmojis = resultats.map((mot) =>
       mot
         .map((resultat) => resultat.statut)
@@ -67,8 +68,38 @@ export default class FinDePartiePanel {
 
     let numeroGrille = Math.floor((dateGrille - origine) / (24 * 3600 * 1000)) + 1;
 
-    this._resumeTexte = "SUTOM #" + numeroGrille + " " + (estBonneReponse ? resultats.length : "-") + "/6\n\n" + resultatsEmojis.join("\n");
-    this._resumeTexteLegacy = "SUTOM #" + numeroGrille + " " + (estBonneReponse ? resultats.length : "-") + "/6\n\n" + resultatsEmojisLegacy.join("\n");
+    let afficherChrono = (Sauvegardeur.chargerConfig() ?? Configuration.Default).afficherChrono;
+
+    const entete =
+      "SUTOM #" +
+      numeroGrille +
+      " " +
+      (estBonneReponse ? resultats.length : "-") +
+      "/6" +
+      (afficherChrono ? " " + this.genererTempsHumain(dureeMs) : "") +
+      "\n\n";
+    this._resumeTexte = entete + resultatsEmojis.join("\n");
+    this._resumeTexteLegacy = entete + resultatsEmojisLegacy.join("\n");
+  }
+
+  private genererTempsHumain(dureeMs: number): string {
+    // Note : Durée est en millisecondes.
+    let duree = Math.floor(dureeMs / 1000);
+    let retour = "";
+
+    if (duree >= 3600) {
+      retour += Math.floor(duree / 3600) + "h";
+    }
+
+    retour +=
+      Math.floor((duree / 60) % 60)
+        .toString()
+        .padStart(2, "0") + ":";
+    retour += Math.floor(duree / 60)
+      .toString()
+      .padStart(2, "0");
+
+    return retour;
   }
 
   private attacherPartage(): void {

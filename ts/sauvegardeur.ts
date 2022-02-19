@@ -20,10 +20,11 @@ export default class Sauvegardeur {
     return stats;
   }
 
-  public static sauvegarderPartieEnCours(propositions: Array<string>, datePartie: Date): void {
+  public static sauvegarderPartieEnCours(propositions: Array<string>, datePartie: Date, dateFinPartie?: Date): void {
     let partieEnCours: SauvegardePartie = {
       propositions: propositions,
       datePartie,
+      dateFinPartie,
     };
     localStorage.setItem(this._clePartieEnCours, JSON.stringify(partieEnCours));
   }
@@ -43,8 +44,11 @@ export default class Sauvegardeur {
       localStorage.removeItem(this._clePartieEnCours);
       return;
     }
+    let dateFinPartie = partieEnCours.dateFinPartie === undefined ? undefined : new Date(partieEnCours.dateFinPartie);
+
     return {
       datePartie: datePartieEnCours,
+      dateFinPartie: dateFinPartie,
       propositions: partieEnCours.propositions,
     };
   }

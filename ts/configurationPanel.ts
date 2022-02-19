@@ -107,6 +107,26 @@ export default class ConfigurationPanel {
       )
     );
 
+    contenu.appendChild(
+      this.genererConfigItem(
+        "Afficher le temps sur le résumé (à la prochaine partie)",
+        [
+          { value: false.toString(), label: "Non" },
+          { value: true.toString(), label: "Oui" },
+        ],
+        (config.afficherChrono ?? Configuration.Default.afficherChrono).toString(),
+        (event: Event) => {
+          event.stopPropagation();
+          let afficherChrono = (event.target as HTMLSelectElement).value === true.toString();
+
+          Sauvegardeur.sauvegarderConfig({
+            ...(Sauvegardeur.chargerConfig() ?? Configuration.Default),
+            afficherChrono,
+          });
+        }
+      )
+    );
+
     this._panelManager.setContenuHtmlElement(titre, contenu);
     this._panelManager.setClasses(["config-panel"]);
     this._panelManager.afficherPanel();

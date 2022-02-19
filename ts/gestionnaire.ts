@@ -31,6 +31,7 @@ export default class Gestionnaire {
   private _compositionMotATrouver: { [lettre: string]: number } = {};
   private _maxNbPropositions: number = 6;
   private _datePartieEnCours: Date;
+  private _dateFinPartie: Date | undefined;
   private _stats: SauvegardeStats = SauvegardeStats.Default;
   private _config: Configuration = Configuration.Default;
 
@@ -43,6 +44,10 @@ export default class Gestionnaire {
       this._datePartieEnCours = partieEnCours.datePartie;
     } else {
       this._datePartieEnCours = new Date();
+    }
+
+    if (partieEnCours.dateFinPartie) {
+      this._dateFinPartie = partieEnCours.dateFinPartie;
     }
 
     this._propositions = new Array<string>();
@@ -112,7 +117,7 @@ export default class Gestionnaire {
   }
 
   private sauvegarderPartieEnCours(): void {
-    Sauvegardeur.sauvegarderPartieEnCours(this._propositions, this._datePartieEnCours);
+    Sauvegardeur.sauvegarderPartieEnCours(this._propositions, this._datePartieEnCours, this._dateFinPartie);
   }
 
   private async choisirMot(datePartie: Date): Promise<string> {
@@ -151,7 +156,9 @@ export default class Gestionnaire {
     this._resultats.push(resultats);
 
     if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
-      this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._resultats);
+      if (!this._dateFinPartie) this._dateFinPartie = new Date();
+      let duree = this._dateFinPartie.getTime() - this._datePartieEnCours.getTime();
+      this._finDePartiePanel.genererResume(isBonneReponse, this._motATrouver, this._resultats, duree);
       if (!chargementPartie) this.enregistrerPartieDansStats();
     }
 
