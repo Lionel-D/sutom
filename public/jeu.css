@@ -339,3 +339,15 @@ h1 {
     font-size: 24px;
   }
 }
+
+.emoji-carre-rouge {
+  color: red;
+}
+
+.emoji-cercle-jaune {
+  color: yellow;
+}
+
+.emoji-carre-bleu {
+  color: skyblue;
+}

@@ -11,6 +11,7 @@ export default class FinDePartiePanel {
   private readonly _statsButton: HTMLElement;
 
   private _resumeTexte: string = "";
+  private _resumeTexteLegacy: string = "";
   private _motATrouver: string = "";
   private _estVictoire: boolean = false;
   private _partieEstFinie: boolean = false;
@@ -43,6 +44,21 @@ export default class FinDePartiePanel {
           }
         }, "")
     );
+
+    let resultatsEmojisLegacy = resultats.map((mot) =>
+      mot
+        .map((resultat) => resultat.statut)
+        .reduce((ligne, statut) => {
+          switch (statut) {
+            case LettreStatut.BienPlace:
+              return ligne + '<span class="emoji-carre-rouge">🟥</span>';
+            case LettreStatut.MalPlace:
+              return ligne + '<span class="emoji-cercle-jaune">🟡</span>';
+            default:
+              return ligne + '<span class="emoji-carre-bleu">🟦</span>';
+          }
+        }, "")
+    );
     let dateGrille = this._datePartie.getTime();
     let origine = InstanceConfiguration.dateOrigine.getTime();
     this._motATrouver = motATrouver;
@@ -52,6 +68,7 @@ export default class FinDePartiePanel {
     let numeroGrille = Math.floor((dateGrille - origine) / (24 * 3600 * 1000)) + 1;
 
     this._resumeTexte = "SUTOM #" + numeroGrille + " " + (estBonneReponse ? resultats.length : "-") + "/6\n\n" + resultatsEmojis.join("\n");
+    this._resumeTexteLegacy = "SUTOM #" + numeroGrille + " " + (estBonneReponse ? resultats.length : "-") + "/6\n\n" + resultatsEmojisLegacy.join("\n");
   }
 
   private attacherPartage(): void {
@@ -106,7 +123,7 @@ export default class FinDePartiePanel {
       contenu +=
         '<p>Résumé de ta partie − <a href="#" id="fin-de-partie-panel-resume-bouton">Partager</a></p> \
           <pre id="fin-de-partie-panel-resume">' +
-        this._resumeTexte +
+        this._resumeTexteLegacy +
         "</pre>";
     }
 
