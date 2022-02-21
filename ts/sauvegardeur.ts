@@ -20,11 +20,12 @@ export default class Sauvegardeur {
     return stats;
   }
 
-  public static sauvegarderPartieEnCours(propositions: Array<string>, datePartie: Date, dateFinPartie?: Date): void {
+  public static sauvegarderPartieEnCours(idPartie: string, datePartie: Date, propositions: Array<string>, dateFinPartie?: Date): void {
     let partieEnCours: SauvegardePartie = {
       propositions: propositions,
       datePartie,
       dateFinPartie,
+      idPartie,
     };
     localStorage.setItem(this._clePartieEnCours, JSON.stringify(partieEnCours));
   }
@@ -50,6 +51,7 @@ export default class Sauvegardeur {
       datePartie: datePartieEnCours,
       dateFinPartie: dateFinPartie,
       propositions: partieEnCours.propositions,
+      idPartie: partieEnCours.idPartie,
     };
   }
 

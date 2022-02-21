@@ -3,13 +3,21 @@ import ListeMotsProposables from "./mots/listeMotsProposables";
 export default class Dictionnaire {
   public constructor() {}
 
-  public static async getMot(datePartie: Date): Promise<string> {
-    let aujourdhui = datePartie.getTime();
-    let origine = InstanceConfiguration.dateOrigine.getTime();
+  public static async getMot(idPartie: string, datePartie: Date): Promise<string> {
+    return await this.getNomFichier(idPartie, datePartie)
+      .then((nom) => fetch("mots/" + nom + ".txt"))
+      .then((resultat) => resultat.text());
+  }
 
-    let numeroGrille = Math.floor((aujourdhui - origine) / (24 * 3600 * 1000)) + 1;
+  private static async getNomFichier(idPartie: string, datePartie: Date): Promise<string> {
+    let datePartieStr =
+      datePartie.getFullYear().toString() +
+      "-" +
+      (datePartie.getMonth() + 1).toString().padStart(2, "0") +
+      "-" +
+      datePartie.getDate().toString().padStart(2, "0");
 
-    return await fetch("mots/" + numeroGrille + ".txt").then((resultat) => resultat.text());
+    return btoa(idPartie + "-" + datePartieStr);
   }
 
   public static estMotValide(mot: string): boolean {

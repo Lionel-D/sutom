@@ -43,14 +43,28 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
         .replace(/^\s+|\s+$/g, "")
     )
     .forEach((mot, numeroMot) =>
-      fs.access("mots/" + (numeroMot + 1) + ".txt", fs.constants.F_OK, (err) => {
-        if (err) {
-          // Dans ce cas, le fichier n'existe pas
-          fs.writeFile("mots/" + (numeroMot + 1) + ".txt", mot, (err) => {
-            if (err) console.error(err);
-          });
-        }
-      })
+      new Promise((resolve, reject) => {
+        let datePartie = new Date(instanceConfiguration.default.dateOrigine);
+        datePartie.setDate(datePartie.getDate() + (numeroMot + 1));
+
+        let datePartieStr =
+          datePartie.getFullYear().toString() +
+          "-" +
+          (datePartie.getMonth() + 1).toString().padStart(2, "0") +
+          "-" +
+          datePartie.getDate().toString().padStart(2, "0");
+
+        return resolve(Buffer.from(instanceConfiguration.default.idPartieParDefaut + "-" + datePartieStr, "utf-8").toString("base64"));
+      }).then((nomFichier) =>
+        fs.access("mots/" + nomFichier + ".txt", fs.constants.F_OK, (err) => {
+          if (err) {
+            // Dans ce cas, le fichier n'existe pas
+            fs.writeFile("mots/" + nomFichier + ".txt", mot, (err) => {
+              if (err) console.error(err);
+            });
+          }
+        })
+      )
     );
   fs.writeFile("ts/mots/listeMotsATrouver.ts", contenu, function (err) {
     if (err) {

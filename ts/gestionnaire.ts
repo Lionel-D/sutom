@@ -14,6 +14,7 @@ import ReglesPanel from "./reglesPanel";
 import ConfigurationPanel from "./configurationPanel";
 import AudioPanel from "./audioPanel";
 import ThemeManager from "./themeManager";
+import InstanceConfiguration from "./instanceConfiguration";
 
 export default class Gestionnaire {
   private _grille: Grille | null = null;
@@ -31,6 +32,7 @@ export default class Gestionnaire {
   private _compositionMotATrouver: { [lettre: string]: number } = {};
   private _maxNbPropositions: number = 6;
   private _datePartieEnCours: Date;
+  private _idPartieEnCours: string;
   private _dateFinPartie: Date | undefined;
   private _stats: SauvegardeStats = SauvegardeStats.Default;
   private _config: Configuration = Configuration.Default;
@@ -46,6 +48,8 @@ export default class Gestionnaire {
       this._datePartieEnCours = new Date();
     }
 
+    this._idPartieEnCours = this.getIdPartie(partieEnCours);
+
     if (partieEnCours.dateFinPartie) {
       this._dateFinPartie = partieEnCours.dateFinPartie;
     }
@@ -59,7 +63,7 @@ export default class Gestionnaire {
     this._finDePartiePanel = new FinDePartiePanel(this._datePartieEnCours, this._panelManager);
     this._configurationPanel = new ConfigurationPanel(this._panelManager, this._audioPanel, this._themeManager);
 
-    this.choisirMot(this._datePartieEnCours).then((mot) => {
+    this.choisirMot(this._idPartieEnCours, this._datePartieEnCours).then((mot) => {
       this._motATrouver = mot;
       this._input = new Input(this, this._config, this._motATrouver.length, this._motATrouver[0]);
       this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._audioPanel);
@@ -69,6 +73,12 @@ export default class Gestionnaire {
     });
 
     this.afficherReglesSiNecessaire();
+  }
+
+  private getIdPartie(partieEnCours: PartieEnCours) {
+    if (partieEnCours.idPartie !== undefined) return partieEnCours.idPartie;
+
+    return InstanceConfiguration.idPartieParDefaut;
   }
 
   private chargerPartieEnCours(): PartieEnCours {
@@ -117,11 +127,11 @@ export default class Gestionnaire {
   }
 
   private sauvegarderPartieEnCours(): void {
-    Sauvegardeur.sauvegarderPartieEnCours(this._propositions, this._datePartieEnCours, this._dateFinPartie);
+    Sauvegardeur.sauvegarderPartieEnCours(this._idPartieEnCours, this._datePartieEnCours, this._propositions, this._dateFinPartie);
   }
 
-  private async choisirMot(datePartie: Date): Promise<string> {
-    return Dictionnaire.nettoyerMot(await Dictionnaire.getMot(datePartie));
+  private async choisirMot(idPartie: string, datePartie: Date): Promise<string> {
+    return Dictionnaire.nettoyerMot(await Dictionnaire.getMot(idPartie, datePartie));
   }
 
   private decompose(mot: string): { [lettre: string]: number } {
