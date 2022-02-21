@@ -1,9 +1,13 @@
+import Input from "./input";
+
 export default class PanelManager {
   private readonly _panelArea: HTMLElement;
   private readonly _panelFenetre: HTMLElement;
   private readonly _panelTitre: HTMLElement;
   private readonly _panelContenu: HTMLElement;
   private readonly _panelFermetureBouton: HTMLElement;
+
+  private _input?: Input;
 
   public constructor() {
     this._panelArea = document.getElementById("panel-area") as HTMLElement;
@@ -36,12 +40,18 @@ export default class PanelManager {
     );
   }
 
+  public setInput(input: Input): void {
+    this._input = input;
+  }
+
   public afficherPanel(): void {
     this._panelArea.style.display = "block";
+    if (this._input) this._input.bloquer();
   }
 
   public cacherPanel(): void {
     this._panelArea.style.display = "none";
+    if (this._input) this._input.debloquer();
   }
 
   public setContenu(titre: string, contenu: string): void {

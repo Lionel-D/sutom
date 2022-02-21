@@ -71,6 +71,7 @@ export default class Gestionnaire {
       .then((mot) => {
         this._motATrouver = mot;
         this._input = new Input(this, this._config, this._motATrouver.length, this._motATrouver[0]);
+        this._panelManager.setInput(this._input);
         this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._audioPanel);
         this._configurationPanel.setInput(this._input);
         this._compositionMotATrouver = this.decompose(this._motATrouver);
