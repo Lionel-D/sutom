@@ -42,13 +42,17 @@ export default class Gestionnaire {
 
     let partieEnCours = this.chargerPartieEnCours();
 
+    this._idPartieEnCours = this.getIdPartie(partieEnCours);
+
+    if (this._idPartieEnCours !== partieEnCours.idPartie) {
+      partieEnCours = new PartieEnCours();
+    }
+
     if (partieEnCours.datePartie) {
       this._datePartieEnCours = partieEnCours.datePartie;
     } else {
       this._datePartieEnCours = new Date();
     }
-
-    this._idPartieEnCours = this.getIdPartie(partieEnCours);
 
     if (partieEnCours.dateFinPartie) {
       this._dateFinPartie = partieEnCours.dateFinPartie;
@@ -63,19 +67,35 @@ export default class Gestionnaire {
     this._finDePartiePanel = new FinDePartiePanel(this._datePartieEnCours, this._panelManager);
     this._configurationPanel = new ConfigurationPanel(this._panelManager, this._audioPanel, this._themeManager);
 
-    this.choisirMot(this._idPartieEnCours, this._datePartieEnCours).then((mot) => {
-      this._motATrouver = mot;
-      this._input = new Input(this, this._config, this._motATrouver.length, this._motATrouver[0]);
-      this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._audioPanel);
-      this._configurationPanel.setInput(this._input);
-      this._compositionMotATrouver = this.decompose(this._motATrouver);
-      this.chargerPropositions(partieEnCours.propositions);
-    });
+    this.choisirMot(this._idPartieEnCours, this._datePartieEnCours)
+      .then((mot) => {
+        this._motATrouver = mot;
+        this._input = new Input(this, this._config, this._motATrouver.length, this._motATrouver[0]);
+        this._grille = new Grille(this._motATrouver.length, this._maxNbPropositions, this._motATrouver[0], this._audioPanel);
+        this._configurationPanel.setInput(this._input);
+        this._compositionMotATrouver = this.decompose(this._motATrouver);
+        this.chargerPropositions(partieEnCours.propositions);
+      })
+      .catch((raison) => NotificationMessage.ajouterNotification("Aucun mot n'a été trouvé pour aujourd'hui"));
 
     this.afficherReglesSiNecessaire();
   }
 
   private getIdPartie(partieEnCours: PartieEnCours) {
+    if (window.location.hash !== "" && window.location.hash !== "#") {
+      let hashPart = atob(window.location.hash.substring(1)).split("/");
+      for (let infoPos in hashPart) {
+        let info = hashPart[infoPos];
+        if (!info.includes("=")) continue;
+        let infoPart = info.split("=");
+        let infoKey = infoPart[0];
+
+        if (infoKey !== "p") continue;
+
+        return infoPart[1];
+      }
+    }
+
     if (partieEnCours.idPartie !== undefined) return partieEnCours.idPartie;
 
     return InstanceConfiguration.idPartieParDefaut;
@@ -131,7 +151,7 @@ export default class Gestionnaire {
   }
 
   private async choisirMot(idPartie: string, datePartie: Date): Promise<string> {
-    return Dictionnaire.nettoyerMot(await Dictionnaire.getMot(idPartie, datePartie));
+    return Dictionnaire.getMot(idPartie, datePartie).then((mot) => Dictionnaire.nettoyerMot(mot));
   }
 
   private decompose(mot: string): { [lettre: string]: number } {

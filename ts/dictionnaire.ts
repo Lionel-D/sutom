@@ -1,4 +1,3 @@
-import InstanceConfiguration from "./instanceConfiguration";
 import ListeMotsProposables from "./mots/listeMotsProposables";
 export default class Dictionnaire {
   public constructor() {}
@@ -6,7 +5,14 @@ export default class Dictionnaire {
   public static async getMot(idPartie: string, datePartie: Date): Promise<string> {
     return await this.getNomFichier(idPartie, datePartie)
       .then((nom) => fetch("mots/" + nom + ".txt"))
-      .then((resultat) => resultat.text());
+      .then(
+        (resultat) =>
+          new Promise((resolve, reject) => {
+            if (!resultat.ok) return reject("Mot non trouvé");
+
+            return resolve(resultat.text());
+          })
+      );
   }
 
   private static async getNomFichier(idPartie: string, datePartie: Date): Promise<string> {
