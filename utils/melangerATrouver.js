@@ -33,7 +33,7 @@ const maxFige = numeroGrille + 1; // inclus
 // console.log(maxFige);
 fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
-  var dictionnaire = contenu.split("\n");
+  var dictionnaire = contenu.split("\n").filter((mot) => mot.length > 0);
   let motsFiges = dictionnaire.slice(0, maxFige + 1);
   let nbEssais = 0;
   const maxEssais = 20;
