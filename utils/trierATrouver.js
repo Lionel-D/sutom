@@ -3,7 +3,7 @@
  * Petit script qui nettoie le fichier des mots à trouver pour le mettre dans le format attendu par le système
  */
 var fs = require("fs");
-var instanceConfiguration = require("../js/instanceConfiguration");
+var instanceConfiguration = require("../public/js/instanceConfiguration");
 
 let aujourdhui = new Date().getTime();
 let origine = instanceConfiguration.default.dateOrigine.getTime();

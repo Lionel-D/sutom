@@ -3,7 +3,7 @@
  * Petit script qui nettoie le fichier des mots à trouver pour le mettre dans le format attendu par le système
  */
 var fs = require("fs");
-var instanceConfiguration = require("../js/instanceConfiguration");
+var instanceConfiguration = require("../public/js/instanceConfiguration");
 
 let aujourdhui = new Date().getTime();
 let origine = instanceConfiguration.default.dateOrigine.getTime();
@@ -16,22 +16,6 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
   var dictionnaire = contenu.split("\n");
   let motsFiges = dictionnaire.slice(0, maxFige + 1);
-
-  contenu = "export default class ListeMotsATrouver {\n";
-  contenu += " public static readonly Liste: Array<string> = [\n";
-  contenu += motsFiges
-    .map(
-      (mot) =>
-        '"' +
-        mot
-          .normalize("NFD")
-          .replace(/\p{Diacritic}/gu, "")
-          .toUpperCase() +
-        '",'
-    )
-    .join("\n");
-  contenu += "\n  ]";
-  contenu += "\n}";
 
   motsFiges
     .map((mot) =>
@@ -56,21 +40,14 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
 
         return resolve(Buffer.from(instanceConfiguration.default.idPartieParDefaut + "-" + datePartieStr, "utf-8").toString("base64"));
       }).then((nomFichier) =>
-        fs.access("mots/" + nomFichier + ".txt", fs.constants.F_OK, (err) => {
+        fs.access("public/mots/" + nomFichier + ".txt", fs.constants.F_OK, (err) => {
           if (err) {
             // Dans ce cas, le fichier n'existe pas
-            fs.writeFile("mots/" + nomFichier + ".txt", mot, (err) => {
+            fs.writeFile("public/mots/" + nomFichier + ".txt", mot, (err) => {
               if (err) console.error(err);
             });
           }
         })
       )
     );
-  fs.writeFile("ts/mots/listeMotsATrouver.ts", contenu, function (err) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    //file written successfully
-  });
 });

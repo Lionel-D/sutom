@@ -4,8 +4,8 @@
  */
 var fs = require("fs");
 
-var listeMotsProposable = require("../js/mots/listeMotsProposables");
-var instanceConfiguration = require("../js/instanceConfiguration");
+var listeMotsProposable = require("../public/js/mots/listeMotsProposables");
+var instanceConfiguration = require("../public/js/instanceConfiguration");
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
@@ -36,7 +36,7 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
   var dictionnaire = contenu.split("\n").filter((mot) => mot.length > 0);
   let motsFiges = dictionnaire.slice(0, maxFige + 1);
   let nbEssais = 0;
-  const maxEssais = 20;
+  const maxEssais = 100;
   let traitementOk = false;
   let motsMelanges = dictionnaire.slice(maxFige + 1);
   let motsMelangesFige = [...motsFiges];

@@ -8,9 +8,9 @@ const port = parseInt(String(process.env.SUTOM_PORT), 10) || 4000;
 
 (async () => {
   app.use("/", express.static("public/"));
-  app.use("/js", express.static("js/"));
+  app.use("/js", express.static("public/js/"));
   app.use("/ts", express.static("ts/"));
-  app.use("/mots", express.static("mots/"));
+  app.use("/mots", express.static("public/mots/"));
   app.use("/node_modules/requirejs/require.js", express.static("node_modules/requirejs/require.js"));
 
   // Vu que le serveur node est prévu pour du test, on va créer un mot du jour s'il n'existe pas
@@ -24,7 +24,7 @@ const port = parseInt(String(process.env.SUTOM_PORT), 10) || 4000;
 
   let nomFichier = Buffer.from(InstanceConfiguration.idPartieParDefaut + "-" + datePartieStr, "utf-8").toString("base64");
 
-  const adresseFichierMot = "mots/" + nomFichier + ".txt";
+  const adresseFichierMot = "public/mots/" + nomFichier + ".txt";
   fs.access(adresseFichierMot, fs.constants.F_OK, (err) => {
     if (err) {
       fs.writeFile(adresseFichierMot, "DIFFUSION", (err) => {

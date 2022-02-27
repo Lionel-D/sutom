@@ -3,8 +3,8 @@
  * Petit script qui nettoie le fichier des mots à trouver pour le mettre dans le format attendu par le système
  */
 var fs = require("fs");
-var listeMotsProposable = require("../js/mots/listeMotsProposables");
-var instanceConfiguration = require("../js/instanceConfiguration");
+var listeMotsProposable = require("../public/js/mots/listeMotsProposables");
+var instanceConfiguration = require("../public/js/instanceConfiguration");
 function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;
