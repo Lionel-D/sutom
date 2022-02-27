@@ -5,6 +5,29 @@
  */
 var fs = require("fs");
 
+function ecrireDictionnaire(dictionnaire, suffixeNom) {
+  console.log("Écriture du dictionnaire " + (suffixeNom !== undefined ? suffixeNom : "général"));
+  let contenu = "export default class ListeMotsProposables {\n";
+  contenu += "public static readonly Dictionnaire: Array<string> = [\n";
+  contenu += dictionnaire
+    .map(function (mot) {
+      return '"' + mot.toUpperCase() + '",';
+    })
+    .join("\n");
+  contenu += "\n];";
+  contenu += "\n}";
+  let nomFichier = "ts/mots/listeMotsProposables";
+  if (suffixeNom !== undefined) nomFichier += suffixeNom;
+  nomFichier += ".ts";
+  fs.writeFile(nomFichier, contenu, function (err) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    //file written successfully
+  });
+}
+
 fs.readFile("data/mots.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
   var dictionnaire = contenu
@@ -35,19 +58,25 @@ fs.readFile("data/mots.txt", "UTF8", function (erreur, contenu) {
     .filter(function (elem, index, self) {
       return index === self.indexOf(elem);
     });
-  dictionnaire.sort();
-  contenu = "public static readonly Dictionnaire: Array<string> = [\n";
-  contenu += dictionnaire
-    .map(function (mot) {
-      return '"' + mot.toUpperCase() + '",';
-    })
-    .join("\n");
-  contenu += "\n];";
-  fs.writeFile("data/motsNettoyes.txt", contenu, function (err) {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    //file written successfully
+  dictionnaire.sort((a, b) => {
+    if (a.length < b.length) return -1;
+    if (a.length > b.length) return 1;
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
   });
+
+  console.log("Longueur du dictionnaire : " + dictionnaire.length);
+
+  ecrireDictionnaire(dictionnaire);
+
+  let longueurs = [6, 7, 8, 9];
+  let initialesPossibles = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "L", "M", "N", "O", "P", "R", "S", "T", "U", "V"];
+  for (let longueur of longueurs) {
+    for (let initiale of initialesPossibles) {
+      let dicoFiltre = dictionnaire.filter((mot) => mot.length === longueur && mot.toUpperCase().startsWith(initiale));
+      console.log("Longueur du dictionnaire : " + dicoFiltre.length);
+      ecrireDictionnaire(dicoFiltre, "." + longueur + "." + initiale);
+    }
+  }
 });

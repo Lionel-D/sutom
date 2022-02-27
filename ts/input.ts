@@ -157,10 +157,10 @@ export default class Input {
     this._gestionnaire.actualiserAffichage(this._motSaisi);
   }
 
-  private validerMot(): void {
+  private async validerMot(): Promise<void> {
     if (this._estBloque) return;
     let mot = this._motSaisi;
-    let isMotValide = this._gestionnaire.verifierMot(mot);
+    let isMotValide = await this._gestionnaire.verifierMot(mot);
     if (isMotValide) this._motSaisi = "";
   }
 

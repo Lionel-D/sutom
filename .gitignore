@@ -1,7 +1,9 @@
 config/
-data/
+data/*
+!data/mots.txt
 js/
 mots/**
 node_modules/
 ts/mots/listeMotsATrouver.ts
+ts/mots/listeMotsProposables.*
 cron.prod.sh

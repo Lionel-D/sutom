@@ -59,6 +59,6 @@
       "moduleResolution": "node"
     },
   
-    "include": ["ts/*.ts", "type/*"]
+    "include": ["ts/*.ts", "ts/mots/listeMotsProposables.*.*.ts", "type/*"]
   }
   
