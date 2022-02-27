@@ -165,20 +165,20 @@ export default class Gestionnaire {
     return composition;
   }
 
-  public verifierMot(mot: string, chargementPartie: boolean = false): void {
+  public verifierMot(mot: string, chargementPartie: boolean = false): boolean {
     mot = Dictionnaire.nettoyerMot(mot);
     //console.debug(mot + " => " + (Dictionnaire.estMotValide(mot) ? "Oui" : "non"));
     if (mot.length !== this._motATrouver.length) {
       NotificationMessage.ajouterNotification("Le mot proposé est trop court");
-      return;
+      return false;
     }
     if (mot[0] !== this._motATrouver[0]) {
       NotificationMessage.ajouterNotification("Le mot proposé doit commencer par la même lettre que le mot recherché");
-      return;
+      return false;
     }
     if (!Dictionnaire.estMotValide(mot)) {
       NotificationMessage.ajouterNotification("Ce mot n'est pas dans notre dictionnaire");
-      return;
+      return false;
     }
     if (!this._datePartieEnCours) this._datePartieEnCours = new Date();
     let resultats = this.analyserMot(mot);
@@ -209,6 +209,8 @@ export default class Gestionnaire {
     }
 
     this.sauvegarderPartieEnCours();
+
+    return true;
   }
 
   public actualiserAffichage(mot: string): void {
