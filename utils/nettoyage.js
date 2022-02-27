@@ -31,7 +31,10 @@ fs.readFile("data/mots.txt", "UTF8", function (erreur, contenu) {
         !mot.toUpperCase().startsWith("X") &&
         !mot.toUpperCase().startsWith("Y") &&
         !mot.toUpperCase().startsWith("Z")
-    );
+    )
+    .filter(function (elem, index, self) {
+      return index === self.indexOf(elem);
+    });
   dictionnaire.sort();
   contenu = "public static readonly Dictionnaire: Array<string> = [\n";
   contenu += dictionnaire
