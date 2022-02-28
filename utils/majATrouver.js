@@ -29,7 +29,7 @@ fs.readFile("data/motsATrouve.txt", "UTF8", function (erreur, contenu) {
     .forEach((mot, numeroMot) =>
       new Promise((resolve, reject) => {
         let datePartie = new Date(instanceConfiguration.default.dateOrigine);
-        datePartie.setDate(datePartie.getDate() + (numeroMot + 1));
+        datePartie.setDate(datePartie.getDate() + numeroMot);
 
         let datePartieStr =
           datePartie.getFullYear().toString() +
