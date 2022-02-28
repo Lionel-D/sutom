@@ -44,7 +44,7 @@ export default class Gestionnaire {
 
     this._idPartieEnCours = this.getIdPartie(partieEnCours);
 
-    if (this._idPartieEnCours !== partieEnCours.idPartie) {
+    if (this._idPartieEnCours !== partieEnCours.idPartie && partieEnCours.idPartie !== undefined) {
       partieEnCours = new PartieEnCours();
     }
 

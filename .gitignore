@@ -7,4 +7,4 @@ public/mots/**
 node_modules/
 ts/mots/listeMotsATrouver.ts
 ts/mots/listeMotsProposables.*
-cron.prod.sh
+cron.*.sh
