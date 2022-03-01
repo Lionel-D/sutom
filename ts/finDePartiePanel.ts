@@ -145,10 +145,10 @@ export default class FinDePartiePanel {
         titre = "Perdu";
         contenu +=
           '<p class="fin-de-partie-panel-phrase"> \
-          Le mot a trouver était : ' +
+          Le mot à trouver était : ' +
           this._motATrouver +
           "<br /> \
-          Peut être feras-tu mieux demain ? \
+          Peut-être feras-tu mieux demain ? \
         </p>";
       }
       contenu +=
