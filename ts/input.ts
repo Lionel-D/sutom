@@ -129,7 +129,7 @@ export default class Input {
 
         if (touche === "Enter") {
           this.validerMot();
-        } else if (/^[A-Z]+$/.test(Dictionnaire.nettoyerMot(touche))) {
+        } else if (/^[A-Z]$/.test(Dictionnaire.nettoyerMot(touche))) {
           this.saisirLettre(touche);
         }
       }).bind(this)
@@ -143,6 +143,7 @@ export default class Input {
         let touche = event.key;
 
         if (touche === "Backspace") {
+          event.preventDefault();
           this.effacerLettre();
         }
       }).bind(this)
