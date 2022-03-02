@@ -14,7 +14,7 @@ export default class Input {
   private _longueurMot: number;
   private _motSaisi: string;
   private _estBloque: boolean;
-  private _resultats: Array<LettreResultat>;
+  private _resultats: Array<Array<LettreResultat>>;
 
   public constructor(gestionnaire: Gestionnaire, configuration: Configuration, longueurMot: number, premiereLettre: string) {
     this._grille = document.getElementById("grille") as HTMLElement;
@@ -24,7 +24,7 @@ export default class Input {
     this._gestionnaire = gestionnaire;
     this._motSaisi = "";
     this._estBloque = false;
-    this._resultats = new Array<LettreResultat>();
+    this._resultats = new Array<Array<LettreResultat>>();
 
     this.ajouterEvenementClavierPhysique();
 
@@ -68,7 +68,7 @@ export default class Input {
       this._inputArea.appendChild(ligneDiv);
     }
     this.ajouterEvenementClavierVirtuel();
-    this.updateClavier(this._resultats);
+    this.remettrePropositions();
   }
 
   private getDisposition(clavier: ClavierDisposition): Array<Array<string>> {
@@ -182,7 +182,17 @@ export default class Input {
   }
 
   public updateClavier(resultats: Array<LettreResultat>): void {
-    this._resultats = resultats; // On sauvegarde au cas où on doit redessiner tout le clavier
+    this._resultats.push(resultats); // On sauvegarde au cas où on doit redessiner tout le clavier
+    this.updateClavierAvecProposition(resultats);
+  }
+
+  private remettrePropositions(): void {
+    for (let resultat of this._resultats) {
+      this.updateClavierAvecProposition(resultat);
+    }
+  }
+
+  private updateClavierAvecProposition(resultats: Array<LettreResultat>): void {
     let statutLettres: { [lettre: string]: LettreStatut } = {};
     // console.log(statutLettres);
     for (let resultat of resultats) {
