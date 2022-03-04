@@ -95,7 +95,7 @@ export default class FinDePartiePanel {
       Math.floor((duree / 60) % 60)
         .toString()
         .padStart(2, "0") + ":";
-    retour += Math.floor(duree / 60)
+    retour += Math.floor(duree % 60)
       .toString()
       .padStart(2, "0");
 
