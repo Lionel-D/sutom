@@ -5,6 +5,11 @@ import { ClavierDisposition } from "./entites/clavierDisposition";
 import Configuration from "./entites/configuration";
 import Dictionnaire from "./dictionnaire";
 
+export enum ContexteBloquage {
+  ValidationMot,
+  Panel,
+}
+
 export default class Input {
   private readonly _grille: HTMLElement;
   private readonly _inputArea: HTMLElement;
@@ -13,7 +18,7 @@ export default class Input {
 
   private _longueurMot: number;
   private _motSaisi: string;
-  private _estBloque: boolean;
+  private _estBloque: Array<ContexteBloquage>; // TODO : Faire un dictionnaire pour savoir qui bloque, pour que si c'est bloqué par finDePartie, et que la fermeture de panel essaye de débloquer, ça ne fasse rien
   private _resultats: Array<Array<LettreResultat>>;
 
   public constructor(gestionnaire: Gestionnaire, configuration: Configuration, longueurMot: number, premiereLettre: string) {
@@ -23,7 +28,7 @@ export default class Input {
     this._longueurMot = longueurMot;
     this._gestionnaire = gestionnaire;
     this._motSaisi = "";
-    this._estBloque = false;
+    this._estBloque = new Array<ContexteBloquage>();
     this._resultats = new Array<Array<LettreResultat>>();
 
     this.ajouterEvenementClavierPhysique();
@@ -151,7 +156,7 @@ export default class Input {
   }
 
   private effacerLettre(): void {
-    if (this._estBloque) return;
+    if (this.estBloque()) return;
     if (this._motSaisi.length !== 0) {
       this._motSaisi = this._motSaisi.substring(0, this._motSaisi.length - 1);
     }
@@ -159,26 +164,30 @@ export default class Input {
   }
 
   private async validerMot(): Promise<void> {
-    if (this._estBloque) return;
+    if (this.estBloque()) return;
     let mot = this._motSaisi;
     let isMotValide = await this._gestionnaire.verifierMot(mot);
     if (isMotValide) this._motSaisi = "";
   }
 
   private saisirLettre(lettre: string): void {
-    if (this._estBloque) return;
+    if (this.estBloque()) return;
     if (this._motSaisi.length >= this._longueurMot) return;
     if (this._motSaisi.length === 0 && lettre.toUpperCase() !== this._premiereLettre) this._motSaisi += this._premiereLettre;
     this._motSaisi += lettre;
     this._gestionnaire.actualiserAffichage(this._motSaisi);
   }
 
-  public bloquer(): void {
-    this._estBloque = true;
+  public bloquer(contexte: ContexteBloquage): void {
+    if (!this._estBloque.includes(contexte)) this._estBloque.push(contexte);
   }
 
-  public debloquer(): void {
-    this._estBloque = false;
+  public debloquer(contexte: ContexteBloquage): void {
+    if (this._estBloque.includes(contexte)) this._estBloque.splice(this._estBloque.indexOf(contexte), 1);
+  }
+
+  private estBloque(): boolean {
+    return this._estBloque.length > 0;
   }
 
   public updateClavier(resultats: Array<LettreResultat>): void {

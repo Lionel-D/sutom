@@ -1,4 +1,4 @@
-import Input from "./input";
+import Input, { ContexteBloquage } from "./input";
 
 export default class PanelManager {
   private readonly _panelArea: HTMLElement;
@@ -46,12 +46,12 @@ export default class PanelManager {
 
   public afficherPanel(): void {
     this._panelArea.style.display = "block";
-    if (this._input) this._input.bloquer();
+    if (this._input) this._input.bloquer(ContexteBloquage.Panel);
   }
 
   public cacherPanel(): void {
     this._panelArea.style.display = "none";
-    if (this._input) this._input.debloquer();
+    if (this._input) this._input.debloquer(ContexteBloquage.Panel);
   }
 
   public setContenu(titre: string, contenu: string): void {

@@ -1,6 +1,6 @@
 import Dictionnaire from "./dictionnaire";
 import Grille from "./grille";
-import Input from "./input";
+import Input, { ContexteBloquage } from "./input";
 import LettreResultat from "./entites/lettreResultat";
 import { LettreStatut } from "./entites/lettreStatut";
 import FinDePartiePanel from "./finDePartiePanel";
@@ -194,15 +194,15 @@ export default class Gestionnaire {
     }
 
     if (this._grille) {
-      if (this._input) this._input.bloquer();
+      if (this._input) this._input.bloquer(ContexteBloquage.ValidationMot);
       this._grille.validerMot(mot, resultats, isBonneReponse, chargementPartie, () => {
         if (this._input) {
           this._input.updateClavier(resultats);
           if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
-            this._input.bloquer();
+            this._input.bloquer(ContexteBloquage.ValidationMot);
             this._finDePartiePanel.afficher();
           } else {
-            this._input.debloquer();
+            this._input.debloquer(ContexteBloquage.ValidationMot);
           }
         }
       });
