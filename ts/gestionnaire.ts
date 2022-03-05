@@ -194,14 +194,13 @@ export default class Gestionnaire {
     }
 
     if (this._grille) {
-      if (this._input) this._input.bloquer(ContexteBloquage.ValidationMot);
       this._grille.validerMot(mot, resultats, isBonneReponse, chargementPartie, () => {
         if (this._input) {
           this._input.updateClavier(resultats);
           if (isBonneReponse || this._propositions.length === this._maxNbPropositions) {
-            this._input.bloquer(ContexteBloquage.ValidationMot);
             this._finDePartiePanel.afficher();
           } else {
+            // La partie n'est pas fini, on débloque
             this._input.debloquer(ContexteBloquage.ValidationMot);
           }
         }

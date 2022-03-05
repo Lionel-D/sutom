@@ -165,9 +165,13 @@ export default class Input {
 
   private async validerMot(): Promise<void> {
     if (this.estBloque()) return;
+    this.bloquer(ContexteBloquage.ValidationMot);
     let mot = this._motSaisi;
     let isMotValide = await this._gestionnaire.verifierMot(mot);
-    if (isMotValide) this._motSaisi = "";
+    if (isMotValide) {
+      // Si le mot est valide, alors c'est la grille qui nous débloque
+      this._motSaisi = "";
+    } else this.debloquer(ContexteBloquage.ValidationMot);
   }
 
   private saisirLettre(lettre: string): void {
