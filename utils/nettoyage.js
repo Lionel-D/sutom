@@ -28,6 +28,22 @@ function ecrireDictionnaire(dictionnaire, suffixeNom) {
   });
 }
 
+function ecrireListeNettoyee(dictionnaire) {
+  let contenu = dictionnaire
+    .map(function (mot) {
+      return mot.toUpperCase();
+    })
+    .join("\n");
+  let nomFichier = "data/motsNettoyes.txt";
+  fs.writeFile(nomFichier, contenu, function (err) {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    //file written successfully
+  });
+}
+
 fs.readFile("data/mots.txt", "UTF8", function (erreur, contenu) {
   //console.log(erreur);
   var dictionnaire = contenu
@@ -68,6 +84,7 @@ fs.readFile("data/mots.txt", "UTF8", function (erreur, contenu) {
 
   console.log("Longueur du dictionnaire : " + dictionnaire.length);
 
+  ecrireListeNettoyee(dictionnaire);
   ecrireDictionnaire(dictionnaire);
 
   let longueurs = [6, 7, 8, 9];
