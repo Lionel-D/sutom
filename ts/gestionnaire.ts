@@ -152,7 +152,7 @@ export default class Gestionnaire {
   }
 
   private async choisirMot(idPartie: string, datePartie: Date): Promise<string> {
-    return Dictionnaire.getMot(idPartie, datePartie).then((mot) => Dictionnaire.nettoyerMot(mot));
+    return Dictionnaire.getMot(idPartie, datePartie);
   }
 
   private decompose(mot: string): { [lettre: string]: number } {

@@ -6,12 +6,19 @@ export default class Dictionnaire {
       .then((nom) => fetch("mots/" + nom + ".txt"))
       .then(
         (resultat) =>
-          new Promise((resolve, reject) => {
+          new Promise<string>((resolve, reject) => {
             if (!resultat.ok) return reject("Mot non trouvé");
 
             return resolve(resultat.text());
           })
-      );
+      )
+      .then(async (motBrut) => {
+        let mot = Dictionnaire.nettoyerMot(motBrut);
+        let longueur = mot.length;
+        let premiereLettre = mot[0];
+        let _ = await import("./mots/listeMotsProposables." + longueur + "." + premiereLettre);
+        return mot;
+      });
   }
 
   private static async getNomFichier(idPartie: string, datePartie: Date): Promise<string> {
