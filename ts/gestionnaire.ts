@@ -15,6 +15,7 @@ import ConfigurationPanel from "./configurationPanel";
 import AudioPanel from "./audioPanel";
 import ThemeManager from "./themeManager";
 import InstanceConfiguration from "./instanceConfiguration";
+import FinDuJeuPanel from "./finDuJeuPanel";
 
 export default class Gestionnaire {
   private _grille: Grille | null = null;
@@ -62,6 +63,8 @@ export default class Gestionnaire {
     this._resultats = new Array<Array<LettreResultat>>();
     this._audioPanel = new AudioPanel(this._config);
     this._panelManager = new PanelManager();
+    let finDuJeuPanel = new FinDuJeuPanel(this._panelManager);
+    finDuJeuPanel.afficher();
     this._themeManager = new ThemeManager(this._config);
     this._reglesPanel = new ReglesPanel(this._panelManager);
     this._finDePartiePanel = new FinDePartiePanel(this._datePartieEnCours, this._panelManager);
@@ -260,6 +263,6 @@ export default class Gestionnaire {
   private afficherReglesSiNecessaire(): void {
     if (this._config.afficherRegles !== undefined && !this._config.afficherRegles) return;
 
-    this._reglesPanel.afficher();
+    // this._reglesPanel.afficher();
   }
 }
