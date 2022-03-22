@@ -140,7 +140,7 @@ export default class FinDePartiePanel {
     } else {
       if (this._estVictoire) {
         titre = "Félicitations";
-        contenu += '<p class="fin-de-partie-panel-phrase">Bravo, tu as gagné. Reviens demain pour une nouvelle grille.</p>';
+        contenu += '<p class="fin-de-partie-panel-phrase">Bravo, tu as gagné. Merci d\'avoir joué :)</p>';
       } else {
         titre = "Perdu";
         contenu +=
@@ -148,7 +148,7 @@ export default class FinDePartiePanel {
           Le mot à trouver était : ' +
           this._motATrouver +
           "<br /> \
-          Peut-être feras-tu mieux demain ? \
+          Merci d'avoir joué :) \
         </p>";
       }
       contenu +=
