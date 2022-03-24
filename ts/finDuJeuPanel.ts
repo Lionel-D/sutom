@@ -14,7 +14,7 @@ export default class FinDuJeuPanel {
       "Suite à une demande de la part de France Télévisions de ne plus utiliser le mot « SUTOM », j'ai décidé de fermer le jeu.<br />" +
       "Le dernier mot sera vendredi 25 mars.<br />" +
       "Merci à toutes les personnes qui ont joué.<br />" +
-      "Vous pouvez retrouver plus d'information concernant cette fermeture sur <a>mon compte twitter, et le thread associé</a>.<br />" +
+      'Vous pouvez retrouver plus d\'informations concernant cette fermeture sur <a target="_blank" href="https://twitter.com/Jonamaths/status/1506899535947345921">mon compte twitter, et le thread associé</a>.<br />' +
       "<br />" +
       "Jonathan" +
       "</p>";
